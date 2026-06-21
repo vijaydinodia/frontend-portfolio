@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, X, Calendar, ShieldCheck, Cpu } from 'lucide-react';
 import axios from 'axios';
 import TiltCard from '../components/TiltCard';
 import Magnetic from '../components/Magnetic';
@@ -10,6 +10,18 @@ const Projects = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedProject]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -53,7 +65,8 @@ const Projects = () => {
                 >
                   <div
                     data-cursor="view"
-                    className="glass rounded-2xl overflow-hidden group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col h-full border border-white/10 relative"
+                    className="glass rounded-2xl overflow-hidden group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col h-full border border-white/10 relative cursor-pointer"
+                    onClick={() => setSelectedProject(project)}
                   >
                     {/* Glowing dynamic badges shown concurrently */}
                     <div className="absolute top-4 right-4 z-20 flex flex-wrap gap-2">
@@ -97,14 +110,26 @@ const Projects = () => {
                     <div className="flex items-center space-x-6 border-t border-white/10 pt-4 mt-auto">
                       {project.githubUrl && (
                         <Magnetic range={35}>
-                          <a href={project.githubUrl} target="_blank" rel="noreferrer" className="flex items-center text-sm font-semibold text-textMuted hover:text-white transition-colors py-1">
+                          <a 
+                            href={project.githubUrl} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="flex items-center text-sm font-semibold text-textMuted hover:text-white transition-colors py-1"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <Github size={18} className="mr-2" /> Code
                           </a>
                         </Magnetic>
                       )}
                       {project.liveUrl && (
                         <Magnetic range={35}>
-                          <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center text-sm font-semibold text-accent hover:text-white transition-colors py-1">
+                          <a 
+                            href={project.liveUrl} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="flex items-center text-sm font-semibold text-accent hover:text-white transition-colors py-1"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <ExternalLink size={18} className="mr-2" /> Live Demo
                           </a>
                         </Magnetic>
@@ -118,6 +143,187 @@ const Projects = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Project Details Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-background/80 backdrop-blur-lg overflow-y-auto"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 50, scale: 0.95 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto glass rounded-3xl border border-white/10 shadow-2xl scrollbar-thin"
+            >
+              {/* Header Banner */}
+              <div className="relative h-48 sm:h-64 md:h-80 w-full overflow-hidden border-b border-white/10 shrink-0">
+                {selectedProject.imageUrl && (
+                  <img 
+                    src={selectedProject.imageUrl} 
+                    alt={selectedProject.title} 
+                    className="w-full h-full object-cover"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+                
+                <span className="absolute bottom-6 left-6 md:left-8 bg-primary/20 border border-primary/40 text-primary text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider select-none">
+                  {selectedProject.category}
+                </span>
+                
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="absolute top-6 right-6 md:right-8 z-30 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white/80 hover:text-white border border-white/10 transition-all duration-300 hover:rotate-90 shadow-lg"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Content Area */}
+              <div className="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Left Column (Main info) */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div>
+                    <h3 className="text-3xl font-extrabold text-textMain mb-2">{selectedProject.title}</h3>
+                    {selectedProject.completionDate && (
+                      <p className="text-xs text-textMuted flex items-center gap-1.5 font-light">
+                        <Calendar size={14} className="text-accent" /> Completed on {new Date(selectedProject.completionDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div className="prose prose-invert max-w-none">
+                    <div 
+                      className="text-textMuted font-light leading-relaxed text-sm md:text-base space-y-4"
+                      dangerouslySetInnerHTML={{ __html: selectedProject.fullDescription }}
+                    />
+                  </div>
+                  
+                  {selectedProject.keyFeatures && selectedProject.keyFeatures.length > 0 && (
+                    <div className="border-t border-white/5 pt-6">
+                      <h4 className="text-lg font-bold text-textMain mb-4 flex items-center gap-2">
+                        <ShieldCheck size={18} className="text-accent" /> Key Features
+                      </h4>
+                      <ul className="space-y-3">
+                        {selectedProject.keyFeatures.map((feature, fIdx) => (
+                          <li key={fIdx} className="flex items-start text-sm text-textMuted font-light">
+                            <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 mr-3 shrink-0"></span>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  {selectedProject.challengesFaced && (
+                    <div className="border-t border-white/5 pt-6">
+                      <h4 className="text-lg font-bold text-textMain mb-3 flex items-center gap-2">
+                        <Cpu size={18} className="text-secondary" /> Engineering Challenges
+                      </h4>
+                      <p className="text-sm text-textMuted font-light leading-relaxed">
+                        {selectedProject.challengesFaced}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right Column (Sidebar details) */}
+                <div className="lg:col-span-5 space-y-6">
+                  <div className="glass p-6 rounded-2xl border border-white/10 space-y-4">
+                    <h4 className="text-base font-bold text-textMain uppercase tracking-wider border-b border-white/5 pb-2">Project Meta</h4>
+                    
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-textMuted font-light">Status</span>
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                        selectedProject.status === 'Completed' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+                        selectedProject.status === 'In Progress' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' :
+                        'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                      }`}>
+                        {selectedProject.status}
+                      </span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-textMuted font-light">Category</span>
+                      <span className="text-textMain font-medium">{selectedProject.category}</span>
+                    </div>
+
+                    {selectedProject.metrics && (Object.values(selectedProject.metrics).some(v => v)) && (
+                      <div className="border-t border-white/5 pt-4 mt-4 space-y-3">
+                        <span className="text-xs font-semibold text-textMuted uppercase tracking-wider block">Key Performance Metrics</span>
+                        {selectedProject.metrics.users && (
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-textMuted font-light">Active Users</span>
+                            <span className="text-accent font-semibold">{selectedProject.metrics.users}</span>
+                          </div>
+                        )}
+                        {selectedProject.metrics.performanceScore && (
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-textMuted font-light">Performance</span>
+                            <span className="text-green-500 font-semibold">{selectedProject.metrics.performanceScore}</span>
+                          </div>
+                        )}
+                        {selectedProject.metrics.apiCalls && (
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-textMuted font-light">API Requests</span>
+                            <span className="text-secondary font-semibold">{selectedProject.metrics.apiCalls}</span>
+                          </div>
+                        )}
+                        {selectedProject.metrics.other && (
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-textMuted font-light">Other</span>
+                            <span className="text-textMain font-medium">{selectedProject.metrics.other}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="glass p-6 rounded-2xl border border-white/10 space-y-4">
+                    <h4 className="text-base font-bold text-textMain uppercase tracking-wider border-b border-white/5 pb-2">Technologies Used</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.techStack?.map(tag => (
+                        <span key={tag} className="text-xs font-semibold bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-textSecondary hover:text-white transition-colors select-none">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    {selectedProject.liveUrl && (
+                      <a 
+                        href={selectedProject.liveUrl} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="flex items-center justify-center w-full px-6 py-4.5 rounded-xl bg-gradient-to-r from-primary to-accent hover:from-primaryHover hover:to-accentHover text-white font-bold transition-all duration-300 shadow-[0_4px_20px_rgba(37,99,235,0.35)] hover:shadow-[0_4px_30px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 text-center gap-2"
+                      >
+                        <ExternalLink size={18} /> View Live Demo
+                      </a>
+                    )}
+                    {selectedProject.githubUrl && (
+                      <a 
+                        href={selectedProject.githubUrl} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="flex items-center justify-center w-full px-6 py-4.5 rounded-xl border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-white font-bold transition-all duration-300 hover:-translate-y-0.5 text-center gap-2"
+                      >
+                        <Github size={18} /> Source Code Repository
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

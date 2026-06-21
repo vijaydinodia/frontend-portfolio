@@ -55,12 +55,12 @@ const Experience = () => {
           
           <div ref={containerRef} className="relative ml-4 md:ml-8 pl-8 md:pl-10">
             {/* Background static line */}
-            <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-white/10 rounded-full" />
+            <div className="absolute left-[17px] md:left-[21px] top-2 bottom-2 w-[2px] bg-white/10 rounded-full" />
             
             {/* Scroll-driven glow progress line */}
             <motion.div 
               style={{ scaleY, transformOrigin: 'top' }}
-              className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-primary via-accent to-secondary shadow-[0_0_8px_rgba(6,182,212,0.8)] rounded-full"
+              className="absolute left-[17px] md:left-[21px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-primary via-accent to-secondary shadow-[0_0_8px_rgba(6,182,212,0.8)] rounded-full"
             />
 
             {experiences.map((exp, idx) => (
@@ -72,7 +72,7 @@ const Experience = () => {
                 className="mb-12 relative"
               >
                 {/* Timeline status dot */}
-                <div className="absolute w-4 h-4 rounded-full bg-background border-2 border-accent -left-[39px] md:-left-[41px] top-1.5 shadow-[0_0_8px_rgba(6,182,212,0.6)] z-10"></div>
+                <div className="absolute w-4 h-4 rounded-full bg-background border-2 border-accent -left-[22px] md:-left-[26px] top-1.5 shadow-[0_0_8px_rgba(6,182,212,0.6)] z-10"></div>
                 
                 <TiltCard className="w-full">
                   <div className="glass p-6 rounded-xl border border-white/10 hover:shadow-lg transition-all duration-300">

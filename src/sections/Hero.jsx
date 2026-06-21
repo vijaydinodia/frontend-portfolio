@@ -158,7 +158,9 @@ const Hero = () => {
       .catch(() => {});
   }, []);
 
-  const titleText = profile.name.split('');
+  const titleWords = useMemo(() => {
+    return profile.name.split(' ').map(word => word.split(''));
+  }, [profile.name]);
 
   const ctas = useMemo(() => {
     const resumeBtn = profile.resumeUrl ? (
@@ -219,16 +221,22 @@ const Hero = () => {
             </motion.div>
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4 flex flex-wrap overflow-hidden">
-              {titleText.map((char, index) => (
-                <motion.span
-                  key={index}
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 + (index * 0.04), duration: 0.8, type: "spring", damping: 15, stiffness: 100 }}
-                  className={char === " " ? "w-4 md:w-6" : ""}
-                >
-                  {char}
-                </motion.span>
+              {titleWords.map((wordChars, wordIdx) => (
+                <span key={wordIdx} className="flex whitespace-nowrap mr-4 md:mr-6 last:mr-0">
+                  {wordChars.map((char, charIdx) => {
+                    const globalIdx = titleWords.slice(0, wordIdx).reduce((acc, w) => acc + w.length, 0) + charIdx;
+                    return (
+                      <motion.span
+                        key={charIdx}
+                        initial={{ y: "100%", opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.2 + (globalIdx * 0.04), duration: 0.8, type: "spring", damping: 15, stiffness: 100 }}
+                      >
+                        {char}
+                      </motion.span>
+                    );
+                  })}
+                </span>
               ))}
             </h1>
             

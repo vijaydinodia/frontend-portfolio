@@ -84,9 +84,9 @@ const Projects = () => {
 
                     <div className="relative h-48 overflow-hidden shrink-0 border-b border-white/10">
                       <div className="absolute inset-0 bg-background/25 group-hover:bg-transparent transition-colors z-10"></div>
-                      {project.imageUrl && (
+                      {project.thumbnail && (
                         <img 
-                          src={project.imageUrl} 
+                          src={project.thumbnail} 
                           alt={project.title} 
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
@@ -164,9 +164,9 @@ const Projects = () => {
             >
               {/* Header Banner */}
               <div className="relative h-48 sm:h-64 md:h-80 w-full overflow-hidden border-b border-white/10 shrink-0">
-                {selectedProject.imageUrl && (
+                {selectedProject.thumbnail && (
                   <img 
-                    src={selectedProject.imageUrl} 
+                    src={selectedProject.thumbnail} 
                     alt={selectedProject.title} 
                     className="w-full h-full object-cover"
                   />

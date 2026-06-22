@@ -4,7 +4,7 @@ import { X, Upload } from 'lucide-react';
 
 const ProjectForm = ({ project, onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(project?.imageUrl || '');
+  const [imagePreview, setImagePreview] = useState(project?.thumbnail || '');
   const [imageFile, setImageFile] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -35,7 +35,7 @@ const ProjectForm = ({ project, onSuccess, onCancel }) => {
 
     setLoading(true);
     try {
-      let imageUrl = imagePreview;
+      let thumbnail = imagePreview;
 
       // Handle Image Upload — gracefully skip if Cloudinary isn't configured
       if (imageFile) {
@@ -45,10 +45,10 @@ const ProjectForm = ({ project, onSuccess, onCancel }) => {
           const uploadRes = await axios.post('/api/upload', uploadData, {
             headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
           });
-          imageUrl = uploadRes.data.url;
+          thumbnail = uploadRes.data.url;
         } catch (uploadErr) {
           console.warn('Image upload failed (Cloudinary not configured?). Saving without image.', uploadErr);
-          imageUrl = ''; // skip image, don't block save
+          thumbnail = ''; // skip image, don't block save
         }
       }
 
@@ -57,7 +57,7 @@ const ProjectForm = ({ project, onSuccess, onCancel }) => {
         ...formData,
         displayOrder: Number(formData.displayOrder) || 0,
         techStack: formData.techStack.split(',').map(s => s.trim()).filter(s => s),
-        imageUrl,
+        thumbnail,
       };
 
       const token = localStorage.getItem('adminToken');

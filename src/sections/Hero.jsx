@@ -171,8 +171,17 @@ const Hero = () => {
       </Magnetic>
     ) : (
       <Magnetic key="resume">
-        <a href="#contact" className="px-8 py-4 rounded-full border border-primary/50 bg-primary/10 text-white font-medium transition-all hover:bg-primary/20 hover:-translate-y-1 block">
-          📄 Request Resume
+        <a 
+          href="#contact" 
+          onClick={(e) => {
+            if (!profile.resumeUrl) {
+              e.preventDefault();
+              alert("Resume currently unavailable. Please check back later or contact me.");
+            }
+          }}
+          className="px-8 py-4 rounded-full border border-primary/50 bg-primary/10 text-white font-medium transition-all hover:bg-primary/20 hover:-translate-y-1 block"
+        >
+          📄 Download Resume
         </a>
       </Magnetic>
     );

@@ -50,7 +50,7 @@ const Skills = () => {
   if (loading) return null;
 
   return (
-    <section id="skills" className="py-20 w-full relative bg-card/10">
+    <section id="skills" className="py-10 md:py-16 w-full relative bg-card/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}

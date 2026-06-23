@@ -151,6 +151,18 @@ const Hero = () => {
     bio: 'A passionate MERN Stack Developer transforming complex problems into elegant, premium, and highly scalable solutions.',
     resumeUrl: '',
   });
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const checkBreakpoints = () => {
+      setIsMobile(window.innerWidth < 1024);
+      setIsSmallScreen(window.innerWidth < 768);
+    };
+    checkBreakpoints();
+    window.addEventListener('resize', checkBreakpoints);
+    return () => window.removeEventListener('resize', checkBreakpoints);
+  }, []);
 
   useEffect(() => {
     axios.get('/api/profile')
@@ -207,16 +219,18 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen w-full flex items-center overflow-hidden pt-20 pb-10">
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
-        <Canvas camera={{ position: [0, 0, 1] }} dpr={[1, 1.5]} gl={{ antialias: false }}>
-          <Stars radius={100} depth={50} count={1000} factor={3} saturation={0} fade speed={1} />
-        </Canvas>
-      </div>
+      {!isSmallScreen && (
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
+          <Canvas camera={{ position: [0, 0, 1] }} dpr={[1, 1.5]} gl={{ antialias: false }}>
+            <Stars radius={100} depth={50} count={1000} factor={3} saturation={0} fade speed={1} />
+          </Canvas>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
           
-          <div className="text-left flex flex-col justify-center order-2 lg:order-1 pt-10 lg:pt-0">
+          <div className="text-left flex flex-col justify-center order-1 lg:order-1 pt-10 lg:pt-0">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -281,12 +295,62 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            className="h-[50vh] lg:h-[80vh] w-full relative order-1 lg:order-2"
+            className="h-[40vh] lg:h-[80vh] w-full relative order-2 lg:order-2 flex items-center justify-center pt-6 lg:pt-0"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-accent/10 rounded-full blur-3xl filter pointer-events-none"></div>
-            <Canvas camera={{ position: [0, 0, 7.5] }} dpr={[1, 1.5]}>
-              <Interactive3DScene />
-            </Canvas>
+            
+            {isMobile ? (
+              <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+                {/* Rotating Outer Glow Ring */}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary rounded-full animate-spin [animation-duration:8s] opacity-40 blur-md"></div>
+                
+                {/* Glass Card for Avatar */}
+                <div className="relative w-[90%] h-[90%] bg-card/50 backdrop-blur-xl rounded-full border border-white/10 flex items-center justify-center overflow-hidden shadow-2xl group transition-all duration-300 hover:border-accent/40">
+                  {profile.profileImageUrl ? (
+                    <img 
+                      src={profile.profileImageUrl} 
+                      alt={profile.name} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 contrast-110" 
+                    />
+                  ) : (
+                    <div className="text-center p-6 select-none">
+                      <span className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+                        {profile.name ? profile.name.split(' ').map(n => n[0]).join('') : 'VD'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Floating Tech Badges with micro-animations */}
+                <motion.div 
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                  className="absolute -top-3 left-4 px-3 py-1.5 bg-card/85 backdrop-blur-md rounded-xl border border-white/10 shadow-lg flex items-center justify-center cursor-default select-none hover:border-primary/40 transition-colors"
+                >
+                  <span className="text-[10px] md:text-xs font-black tracking-widest text-primary uppercase">React</span>
+                </motion.div>
+                
+                <motion.div 
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+                  className="absolute -bottom-3 right-4 px-3 py-1.5 bg-card/85 backdrop-blur-md rounded-xl border border-white/10 shadow-lg flex items-center justify-center cursor-default select-none hover:border-accent/40 transition-colors"
+                >
+                  <span className="text-[10px] md:text-xs font-black tracking-widest text-accent uppercase">Node</span>
+                </motion.div>
+
+                <motion.div 
+                  animate={{ x: [0, 8, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 1 }}
+                  className="absolute top-1/2 -right-4 md:-right-6 -translate-y-1/2 px-3 py-1.5 bg-card/85 backdrop-blur-md rounded-xl border border-white/10 shadow-lg flex items-center justify-center cursor-default select-none hover:border-secondary/40 transition-colors"
+                >
+                  <span className="text-[10px] md:text-xs font-black tracking-widest text-secondary uppercase">MERN</span>
+                </motion.div>
+              </div>
+            ) : (
+              <Canvas camera={{ position: [0, 0, 7.5] }} dpr={[1, 1.5]}>
+                <Interactive3DScene />
+              </Canvas>
+            )}
           </motion.div>
         </div>
       </div>

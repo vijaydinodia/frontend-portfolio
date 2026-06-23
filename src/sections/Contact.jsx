@@ -65,7 +65,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 w-full relative overflow-hidden">
+    <section id="contact" className="py-10 md:py-16 w-full relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}

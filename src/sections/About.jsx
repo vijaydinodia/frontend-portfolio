@@ -30,7 +30,7 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" className="py-20 w-full relative overflow-hidden">
+    <section id="about" className="py-10 md:py-16 w-full relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -49,7 +49,7 @@ const About = () => {
           } gap-8 items-stretch`}>
             
             {profile.profileImageUrl && (
-              <div className="md:col-span-1 lg:col-span-4 flex justify-center items-center lg:items-stretch w-full">
+              <div className="hidden md:flex md:col-span-1 lg:col-span-4 justify-center items-center lg:items-stretch w-full">
                 <TiltCard className="relative group w-full aspect-square lg:aspect-auto lg:h-full max-w-[320px] lg:max-w-full">
                   <div className="absolute -inset-1.5 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200 animate-gradient bg-300%"></div>
                   <div className="relative glass rounded-2xl p-3 h-full w-full flex items-center justify-center border border-white/10">

@@ -30,7 +30,7 @@ const Stats = () => {
   const showMentored = stats.studentsMentored && stats.studentsMentored > 0;
 
   return (
-    <section className="py-16 w-full relative border-y border-white/5 bg-card/5">
+    <section className="py-8 md:py-12 w-full relative border-y border-white/5 bg-card/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={ref} className={`grid ${
           showMentored 

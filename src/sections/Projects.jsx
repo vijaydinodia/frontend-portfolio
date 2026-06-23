@@ -66,7 +66,7 @@ const Projects = () => {
   if (loading) return null;
 
   return (
-    <section id="projects" className="py-20 w-full relative bg-card/5">
+    <section id="projects" className="py-10 md:py-16 w-full relative bg-card/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -231,6 +231,7 @@ const Projects = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedProject(null)}
+            data-lenis-prevent
             className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-background/80 backdrop-blur-lg overflow-y-auto"
           >
             <motion.div
@@ -239,6 +240,7 @@ const Projects = () => {
               exit={{ opacity: 0, y: 50, scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
+              data-lenis-prevent
               className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto glass rounded-3xl border border-white/10 shadow-2xl scrollbar-thin"
             >
               {/* Header Banner */}
@@ -381,7 +383,7 @@ const Projects = () => {
                         href={selectedProject.liveUrl} 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="flex items-center justify-center w-full px-6 py-4.5 rounded-xl bg-gradient-to-r from-primary to-accent hover:from-primaryHover hover:to-accentHover text-white font-bold transition-all duration-300 shadow-[0_4px_20px_rgba(37,99,235,0.35)] hover:shadow-[0_4px_30px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 text-center gap-2"
+                        className="flex items-center justify-center w-full px-6 py-4 rounded-xl bg-gradient-to-r from-primary to-accent hover:from-primaryHover hover:to-accentHover text-white font-bold transition-all duration-300 shadow-[0_4px_20px_rgba(37,99,235,0.35)] hover:shadow-[0_4px_30px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 text-center gap-2"
                       >
                         <ExternalLink size={18} /> View Live Demo
                       </a>
@@ -391,7 +393,7 @@ const Projects = () => {
                         href={selectedProject.githubUrl} 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="flex items-center justify-center w-full px-6 py-4.5 rounded-xl border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-white font-bold transition-all duration-300 hover:-translate-y-0.5 text-center gap-2"
+                        className="flex items-center justify-center w-full px-6 py-4 rounded-xl border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-white font-bold transition-all duration-300 hover:-translate-y-0.5 text-center gap-2"
                       >
                         <Github size={18} /> Source Code Repository
                       </a>

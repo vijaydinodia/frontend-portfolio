@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Github, Linkedin } from 'lucide-react';
+import { SiLeetcode } from 'react-icons/si';
+import axios from 'axios';
 import Magnetic from './Magnetic';
 
 const navLinks = [
@@ -15,10 +17,31 @@ const navLinks = [
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [profile, setProfile] = useState({
+    github: 'https://github.com/vijaydinodia',
+    linkedin: 'https://www.linkedin.com/in/vijaydinodia',
+    leetcode: 'https://leetcode.com/u/vijaydinodia/'
+  });
+
+  useEffect(() => {
+    axios.get('/api/profile')
+      .then(res => {
+        if (res.data?.data) {
+          setProfile(prev => ({
+            ...prev,
+            github: res.data.data.github || prev.github,
+            linkedin: res.data.data.linkedin || prev.linkedin,
+            leetcode: res.data.data.leetcode || prev.leetcode,
+          }));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
+      setIsMobileMenuOpen(false);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -47,17 +70,45 @@ const Navigation = () => {
         </Magnetic>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-2">
-          {navLinks.map((link) => (
-            <Magnetic key={link.name} range={45}>
-              <a
-                href={link.href}
-                className="text-textMuted hover:text-accent transition-colors text-sm font-semibold tracking-wider px-3 py-1.5 block"
-              >
-                {link.name}
-              </a>
-            </Magnetic>
-          ))}
+        <div className="hidden md:flex items-center space-x-4">
+          <div className="flex items-center space-x-1">
+            {navLinks.map((link) => (
+              <Magnetic key={link.name} range={45}>
+                <a
+                  href={link.href}
+                  className="text-textMuted hover:text-accent transition-colors text-sm font-semibold tracking-wider px-3 py-1.5 block"
+                >
+                  {link.name}
+                </a>
+              </Magnetic>
+            ))}
+          </div>
+
+          <div className="h-4 w-[1px] bg-white/20"></div>
+
+          <div className="flex items-center space-x-3 pl-1">
+            {profile.github && (
+              <Magnetic range={35}>
+                <a href={profile.github} target="_blank" rel="noreferrer" className="text-textMuted hover:text-accent transition-colors p-1 block">
+                  <Github size={18} />
+                </a>
+              </Magnetic>
+            )}
+            {profile.linkedin && (
+              <Magnetic range={35}>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer" className="text-textMuted hover:text-accent transition-colors p-1 block">
+                  <Linkedin size={18} />
+                </a>
+              </Magnetic>
+            )}
+            {profile.leetcode && (
+              <Magnetic range={35}>
+                <a href={profile.leetcode} target="_blank" rel="noreferrer" className="text-textMuted hover:text-accent transition-colors p-1 block">
+                  <SiLeetcode size={18} />
+                </a>
+              </Magnetic>
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -88,6 +139,24 @@ const Navigation = () => {
               {link.name}
             </a>
           ))}
+          <div className="w-[80%] h-[1px] bg-white/10 my-2"></div>
+          <div className="flex space-x-6 pt-2">
+            {profile.github && (
+              <a href={profile.github} target="_blank" rel="noreferrer" className="text-textMuted hover:text-accent transition-colors">
+                <Github size={20} />
+              </a>
+            )}
+            {profile.linkedin && (
+              <a href={profile.linkedin} target="_blank" rel="noreferrer" className="text-textMuted hover:text-accent transition-colors">
+                <Linkedin size={20} />
+              </a>
+            )}
+            {profile.leetcode && (
+              <a href={profile.leetcode} target="_blank" rel="noreferrer" className="text-textMuted hover:text-accent transition-colors">
+                <SiLeetcode size={20} />
+              </a>
+            )}
+          </div>
         </motion.div>
       )}
     </motion.nav>

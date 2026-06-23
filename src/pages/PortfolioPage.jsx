@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import SplashCursor from '../components/SplashCursor'
 import Cursor from '../components/Cursor'
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
@@ -41,7 +40,6 @@ const PortfolioPage = () => {
 
   return (
     <div className="bg-background min-h-screen text-textMain selection:bg-primary/30">
-      <SplashCursor />
       <Cursor />
       <Navigation />
       <main>

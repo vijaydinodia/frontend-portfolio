@@ -38,7 +38,7 @@ const SkillsAdmin = () => {
         fetchSkills();
       } catch (err) {
         console.error(err);
-        alert('Failed to delete skill');
+        alert('Failed to delete skill: ' + (err.response?.data?.error || err.response?.data?.message || err.message));
       }
     }
   };

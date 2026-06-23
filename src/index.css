@@ -12,6 +12,13 @@
   .glass {
     @apply bg-card/60 backdrop-blur-md border border-white/10 shadow-lg;
   }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Lenis smooth scrolling rules */

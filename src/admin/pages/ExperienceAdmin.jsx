@@ -38,7 +38,7 @@ const ExperienceAdmin = () => {
         fetchExperiences();
       } catch (err) {
         console.error(err);
-        alert('Failed to delete experience');
+        alert('Failed to delete experience: ' + (err.response?.data?.error || err.response?.data?.message || err.message));
       }
     }
   };

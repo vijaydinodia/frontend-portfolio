@@ -36,7 +36,7 @@ const MessagesAdmin = () => {
         fetchMessages();
       } catch (err) {
         console.error(err);
-        alert('Failed to delete message');
+        alert('Failed to delete message: ' + (err.response?.data?.error || err.response?.data?.message || err.message));
       }
     }
   };

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Github, ExternalLink, X, Calendar, ShieldCheck, Cpu } from 'lucide-react';
+import { Github, ExternalLink, X, Calendar, ShieldCheck, Cpu, ChevronLeft, ChevronRight } from 'lucide-react';
 import axios from 'axios';
 import TiltCard from '../components/TiltCard';
 import Magnetic from '../components/Magnetic';
@@ -11,6 +11,26 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const PROJECTS_PER_PAGE = 6;
+  const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
+
+  const displayProjects = useMemo(() => {
+    return projects.slice(currentPage * PROJECTS_PER_PAGE, (currentPage + 1) * PROJECTS_PER_PAGE);
+  }, [projects, currentPage]);
+
+  const hasMultiplePages = projects.length > PROJECTS_PER_PAGE;
+  const canGoPrev = currentPage > 0;
+  const canGoNext = (currentPage + 1) * PROJECTS_PER_PAGE < projects.length;
+
+  const nextPage = () => {
+    if (canGoNext) setCurrentPage(prev => prev + 1);
+  };
+
+  const prevPage = () => {
+    if (canGoPrev) setCurrentPage(prev => prev - 1);
+  };
 
   useEffect(() => {
     if (selectedProject) {
@@ -37,6 +57,12 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
+  useEffect(() => {
+    if (currentPage >= totalPages && totalPages > 0) {
+      setCurrentPage(totalPages - 1);
+    }
+  }, [projects, currentPage, totalPages]);
+
   if (loading) return null;
 
   return (
@@ -52,95 +78,148 @@ const Projects = () => {
             Featured <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Projects</span>
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, idx) => {
-              // Recruiter Core CS check
-              const keywords = ['api', 'backend', 'auth', 'database', 'sql', 'mongodb', 'server', 'jwt'];
-              const isBackendCore = keywords.some(k => project.title.toLowerCase().includes(k) || project.shortDescription.toLowerCase().includes(k) || project.techStack?.some(t => t.toLowerCase().includes(k)));
-
-              return (
-                <TiltCard
-                  key={project._id}
-                  className="h-full"
+          <div className={hasMultiplePages ? "relative px-0 md:px-12" : ""}>
+            <div className="overflow-hidden min-h-[400px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentPage}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
-                  <div
-                    data-cursor="view"
-                    className="glass rounded-2xl overflow-hidden group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col h-full border border-white/10 relative cursor-pointer"
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    {/* Glowing dynamic badges shown concurrently */}
-                    <div className="absolute top-4 right-4 z-20 flex flex-wrap gap-2">
-                      {isBackendCore && (
-                        <span className="bg-accent/20 border border-accent/40 text-accent text-[9px] font-black tracking-widest px-2.5 py-1 rounded-full uppercase shadow-[0_0_8px_rgba(6,182,212,0.35)] select-none">
-                          CS Core
-                        </span>
-                      )}
-                      {project.liveUrl && (
-                        <span className="bg-secondary/20 border border-secondary/40 text-secondary text-[9px] font-black tracking-widest px-2.5 py-1 rounded-full uppercase shadow-[0_0_8px_rgba(139,92,246,0.35)] select-none">
-                          Active Demo
-                        </span>
-                      )}
-                    </div>
+                  {displayProjects.map((project) => {
+                    // Recruiter Core CS check
+                    const keywords = ['api', 'backend', 'auth', 'database', 'sql', 'mongodb', 'server', 'jwt'];
+                    const isBackendCore = keywords.some(k => project.title.toLowerCase().includes(k) || project.shortDescription.toLowerCase().includes(k) || project.techStack?.some(t => t.toLowerCase().includes(k)));
 
-                    <div className="relative h-48 overflow-hidden shrink-0 border-b border-white/10">
-                      <div className="absolute inset-0 bg-background/25 group-hover:bg-transparent transition-colors z-10"></div>
-                      {project.thumbnail && (
-                        <img 
-                          src={project.thumbnail} 
-                          alt={project.title} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                        />
-                      )}
-                    </div>
-                  
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-2xl font-bold mb-3 text-textMain group-hover:text-primary transition-colors">{project.title}</h3>
-                    <p className="text-textMuted text-sm mb-6 line-clamp-3 font-light leading-relaxed">
-                      {project.shortDescription}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-6 mt-auto">
-                      {project.techStack?.map(tag => (
-                        <span key={tag} className="text-xs font-semibold bg-white/5 border border-white/5 px-2 py-1 rounded text-textMuted select-none">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    return (
+                      <TiltCard
+                        key={project._id}
+                        className="h-full"
+                      >
+                        <div
+                          data-cursor="view"
+                          className="glass rounded-2xl overflow-hidden group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col h-full border border-white/10 relative cursor-pointer"
+                          onClick={() => setSelectedProject(project)}
+                        >
+                          {/* Glowing dynamic badges shown concurrently */}
+                          <div className="absolute top-4 right-4 z-20 flex flex-wrap gap-2">
+                            {isBackendCore && (
+                              <span className="bg-accent/20 border border-accent/40 text-accent text-[9px] font-black tracking-widest px-2.5 py-1 rounded-full uppercase shadow-[0_0_8px_rgba(6,182,212,0.35)] select-none">
+                                CS Core
+                              </span>
+                            )}
+                            {project.liveUrl && (
+                              <span className="bg-secondary/20 border border-secondary/40 text-secondary text-[9px] font-black tracking-widest px-2.5 py-1 rounded-full uppercase shadow-[0_0_8px_rgba(139,92,246,0.35)] select-none">
+                                Active Demo
+                              </span>
+                            )}
+                          </div>
 
-                    <div className="flex items-center space-x-6 border-t border-white/10 pt-4 mt-auto">
-                      {project.githubUrl && (
-                        <Magnetic range={35}>
-                          <a 
-                            href={project.githubUrl} 
-                            target="_blank" 
-                            rel="noreferrer" 
-                            className="flex items-center text-sm font-semibold text-textMuted hover:text-white transition-colors py-1"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Github size={18} className="mr-2" /> Code
-                          </a>
-                        </Magnetic>
-                      )}
-                      {project.liveUrl && (
-                        <Magnetic range={35}>
-                          <a 
-                            href={project.liveUrl} 
-                            target="_blank" 
-                            rel="noreferrer" 
-                            className="flex items-center text-sm font-semibold text-accent hover:text-white transition-colors py-1"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <ExternalLink size={18} className="mr-2" /> Live Demo
-                          </a>
-                        </Magnetic>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </TiltCard>
-            );
-          })}
+                          <div className="relative h-48 overflow-hidden shrink-0 border-b border-white/10">
+                            <div className="absolute inset-0 bg-background/25 group-hover:bg-transparent transition-colors z-10"></div>
+                            {project.thumbnail && (
+                              <img 
+                                src={project.thumbnail} 
+                                alt={project.title} 
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                              />
+                            )}
+                          </div>
+                        
+                        <div className="p-6 flex flex-col flex-1">
+                          <h3 className="text-2xl font-bold mb-3 text-textMain group-hover:text-primary transition-colors">{project.title}</h3>
+                          <p className="text-textMuted text-sm mb-6 line-clamp-3 font-light leading-relaxed">
+                            {project.shortDescription}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-2 mb-6 mt-auto">
+                            {project.techStack?.map(tag => (
+                              <span key={tag} className="text-xs font-semibold bg-white/5 border border-white/5 px-2 py-1 rounded text-textMuted select-none">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+
+                          <div className="flex items-center space-x-6 border-t border-white/10 pt-4 mt-auto">
+                            {project.githubUrl && (
+                              <Magnetic range={35}>
+                                <a 
+                                  href={project.githubUrl} 
+                                  target="_blank" 
+                                  rel="noreferrer" 
+                                  className="flex items-center text-sm font-semibold text-textMuted hover:text-white transition-colors py-1"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <Github size={18} className="mr-2" /> Code
+                                </a>
+                              </Magnetic>
+                            )}
+                            {project.liveUrl && (
+                              <Magnetic range={35}>
+                                <a 
+                                  href={project.liveUrl} 
+                                  target="_blank" 
+                                  rel="noreferrer" 
+                                  className="flex items-center text-sm font-semibold text-accent hover:text-white transition-colors py-1"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <ExternalLink size={18} className="mr-2" /> Live Demo
+                                </a>
+                              </Magnetic>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </TiltCard>
+                    );
+                  })}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {hasMultiplePages && (
+              <>
+                <button
+                  onClick={prevPage}
+                  className={`absolute left-0 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full glass border border-white/20 hover:bg-primary/20 hover:border-primary/50 text-white transition-all duration-300 hidden md:flex items-center justify-center shadow-lg ${
+                    canGoPrev ? 'opacity-100 pointer-events-auto scale-100' : 'opacity-0 pointer-events-none scale-90'
+                  }`}
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={nextPage}
+                  className={`absolute right-0 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full glass border border-white/20 hover:bg-primary/20 hover:border-primary/50 text-white transition-all duration-300 hidden md:flex items-center justify-center shadow-lg ${
+                    canGoNext ? 'opacity-100 pointer-events-auto scale-100' : 'opacity-0 pointer-events-none scale-90'
+                  }`}
+                  aria-label="Next Page"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </>
+            )}
           </div>
+
+          {hasMultiplePages && (
+            <div className="flex justify-center items-center space-x-3 mt-10">
+              {Array.from({ length: totalPages }).map((_, pageIdx) => (
+                <button
+                  key={pageIdx}
+                  onClick={() => setCurrentPage(pageIdx)}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    currentPage === pageIdx
+                      ? 'bg-primary w-8 shadow-[0_0_8px_rgba(37,99,235,0.6)]'
+                      : 'bg-white/20 hover:bg-white/40 w-2.5'
+                  }`}
+                  aria-label={`Go to page ${pageIdx + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </motion.div>
       </div>
 

@@ -38,7 +38,7 @@ const AchievementsAdmin = () => {
         fetchAchievements();
       } catch (err) {
         console.error(err);
-        alert('Failed to delete achievement');
+        alert('Failed to delete achievement: ' + (err.response?.data?.error || err.response?.data?.message || err.message));
       }
     }
   };

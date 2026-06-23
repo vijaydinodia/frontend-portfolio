@@ -84,7 +84,7 @@ const ProjectsAdmin = () => {
         fetchProjects();
       } catch (err) {
         console.error(err);
-        alert('Failed to delete project');
+        alert('Failed to delete project: ' + (err.response?.data?.error || err.response?.data?.message || err.message));
       }
     }
   };

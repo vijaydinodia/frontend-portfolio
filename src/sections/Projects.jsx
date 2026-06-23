@@ -244,17 +244,26 @@ const Projects = () => {
               className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto glass rounded-3xl border border-white/10 shadow-2xl scrollbar-thin"
             >
               {/* Header Banner */}
-              <div className="relative h-48 sm:h-64 md:h-80 w-full overflow-hidden border-b border-white/10 shrink-0">
+              <div className="relative h-48 sm:h-64 md:h-80 w-full overflow-hidden border-b border-white/10 shrink-0 bg-background/50 flex items-center justify-center">
                 {selectedProject.thumbnail && (
-                  <img 
-                    src={selectedProject.thumbnail} 
-                    alt={selectedProject.title} 
-                    className="w-full h-full object-cover"
-                  />
+                  <>
+                    {/* Blurred backdrop image to fill empty gaps */}
+                    <img 
+                      src={selectedProject.thumbnail} 
+                      alt="" 
+                      className="absolute inset-0 w-full h-full object-cover blur-xl opacity-20 pointer-events-none select-none"
+                    />
+                    {/* Sharp, fitted main image */}
+                    <img 
+                      src={selectedProject.thumbnail} 
+                      alt={selectedProject.title} 
+                      className="relative z-10 max-w-full max-h-full object-contain"
+                    />
+                  </>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-20"></div>
                 
-                <span className="absolute bottom-6 left-6 md:left-8 bg-primary/20 border border-primary/40 text-primary text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider select-none">
+                <span className="absolute bottom-6 left-6 md:left-8 z-30 bg-primary/25 border border-primary/40 text-primary text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider select-none backdrop-blur-md">
                   {selectedProject.category}
                 </span>
                 

@@ -71,7 +71,7 @@ const ProjectForm = ({ project, onSuccess, onCancel }) => {
       onSuccess();
     } catch (error) {
       console.error("Error saving project:", error);
-      alert(error.response?.data?.message || 'Error saving project');
+      alert(`Error: ${error.response?.data?.message} - ${error.response?.data?.error || 'Unknown error'}`);
     } finally {
       setLoading(false);
     }

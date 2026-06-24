@@ -47,7 +47,7 @@ const ExperienceForm = ({ experience, onSuccess, onCancel }) => {
       onSuccess();
     } catch (error) {
       console.error("Error saving experience:", error);
-      alert(error.response?.data?.message || 'Error saving experience');
+      alert(error.response?.data?.error || error.response?.data?.message || error.message || 'Error saving experience');
     } finally {
       setLoading(false);
     }

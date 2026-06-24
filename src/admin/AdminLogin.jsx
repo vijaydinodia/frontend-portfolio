@@ -12,7 +12,10 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || "/admin";
+  const fromLocation = location.state?.from;
+  const from = fromLocation
+    ? `${fromLocation.pathname}${fromLocation.search || ''}${fromLocation.hash || ''}`
+    : "/admin";
 
   const handleLogin = async (e) => {
     e.preventDefault();

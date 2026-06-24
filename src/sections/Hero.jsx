@@ -98,7 +98,7 @@ const TypewriterEffect = ({ tagline }) => {
     tagline || "I build Digital Experiences",
     "MERN Stack Developer",
     "Full Stack Engineer",
-    "DSA & Problem Solver (250+ LeetCode)",
+    "DSA & Problem Solver",
     "SaaS Product Developer"
   ], [tagline]);
 

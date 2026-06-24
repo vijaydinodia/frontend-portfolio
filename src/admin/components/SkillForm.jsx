@@ -114,6 +114,7 @@ const SkillForm = ({ skill, onSuccess, onCancel }) => {
       setIconFile(file);
       setIconPreview(URL.createObjectURL(file));
       setUploadMode(true);
+      setIconError(false);
     }
   };
 
@@ -125,15 +126,21 @@ const SkillForm = ({ skill, onSuccess, onCancel }) => {
     try {
       let finalIconUrl = currentIconUrl;
 
-      // If user selected a file, upload it first
+      // If user selected a file, upload it first — gracefully skip if Cloudinary isn't configured
       if (iconFile && uploadMode) {
-        const uploadData = new FormData();
-        uploadData.append('image', iconFile);
-        const token = localStorage.getItem('adminToken');
-        const uploadRes = await axios.post('/api/upload', uploadData, {
-          headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
-        });
-        finalIconUrl = uploadRes.data.url;
+        try {
+          const uploadData = new FormData();
+          uploadData.append('image', iconFile);
+          const token = localStorage.getItem('adminToken');
+          const uploadRes = await axios.post('/api/upload', uploadData, {
+            headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
+          });
+          finalIconUrl = uploadRes.data.url;
+        } catch (uploadErr) {
+          console.warn('Icon upload failed (Cloudinary not configured?). Saving without custom icon.', uploadErr);
+          alert('Custom icon upload failed (Cloudinary configuration error?). Saving skill without custom icon. ' + (uploadErr.response?.data?.message || uploadErr.message));
+          finalIconUrl = '';
+        }
       }
 
       const payload = { ...formData, iconUrl: iconError && !uploadMode ? '' : finalIconUrl };
@@ -148,7 +155,7 @@ const SkillForm = ({ skill, onSuccess, onCancel }) => {
       onSuccess();
     } catch (error) {
       console.error('Error saving skill:', error);
-      alert(error.response?.data?.message || 'Error saving skill');
+      alert(error.response?.data?.error || error.response?.data?.message || error.message || 'Error saving skill');
     } finally {
       setLoading(false);
     }

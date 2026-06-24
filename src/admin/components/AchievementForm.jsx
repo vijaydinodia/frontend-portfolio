@@ -30,14 +30,20 @@ const AchievementForm = ({ achievement, onSuccess, onCancel }) => {
     try {
       let imageUrl = imagePreview;
 
-      // Handle Image Upload
+      // Handle Image Upload — gracefully skip if Cloudinary isn't configured
       if (imageFile) {
-        const uploadData = new FormData();
-        uploadData.append('image', imageFile);
-        const uploadRes = await axios.post('/api/upload', uploadData, {
-          headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
-        });
-        imageUrl = uploadRes.data.url;
+        try {
+          const uploadData = new FormData();
+          uploadData.append('image', imageFile);
+          const uploadRes = await axios.post('/api/upload', uploadData, {
+            headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
+          });
+          imageUrl = uploadRes.data.url;
+        } catch (uploadErr) {
+          console.warn('Achievement image upload failed (Cloudinary not configured?). Saving without image.', uploadErr);
+          alert('Image upload failed (Cloudinary configuration error?). Saving achievement without image. ' + (uploadErr.response?.data?.message || uploadErr.message));
+          imageUrl = '';
+        }
       }
 
       // Format data
@@ -54,7 +60,7 @@ const AchievementForm = ({ achievement, onSuccess, onCancel }) => {
       onSuccess();
     } catch (error) {
       console.error("Error saving achievement:", error);
-      alert(error.response?.data?.message || 'Error saving achievement');
+      alert(error.response?.data?.error || error.response?.data?.message || error.message || 'Error saving achievement');
     } finally {
       setLoading(false);
     }

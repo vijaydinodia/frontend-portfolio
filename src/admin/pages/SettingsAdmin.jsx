@@ -34,12 +34,12 @@ const SettingsAdmin = () => {
     aboutPara2: '',
     highlights: [],
     github: '',
+    leetcode: '',
     linkedin: '',
     twitter: '',
     email: '',
     phone: '',
     location: '',
-    studentsMentored: '',
     profileImageUrl: '',
   });
 
@@ -58,12 +58,12 @@ const SettingsAdmin = () => {
           aboutPara2: d.aboutPara2 || '',
           highlights: d.highlights || [],
           github: d.github || '',
+          leetcode: d.leetcode || '',
           linkedin: d.linkedin || '',
           twitter: d.twitter || '',
           email: d.email || '',
           phone: d.phone || '',
           location: d.location || '',
-          studentsMentored: d.studentsMentored !== undefined ? d.studentsMentored : '',
           profileImageUrl: d.profileImageUrl || '',
         });
       } catch (err) {
@@ -106,7 +106,7 @@ const SettingsAdmin = () => {
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to save');
+      alert(err.response?.data?.error || err.response?.data?.message || err.message || 'Failed to save');
     } finally {
       setSaving(false);
     }
@@ -129,7 +129,7 @@ const SettingsAdmin = () => {
       setCvSuccess(true);
       setTimeout(() => setCvSuccess(false), 5000);
     } catch (err) {
-      alert(err.response?.data?.message || 'CV upload failed. Make sure Cloudinary is configured.');
+      alert(err.response?.data?.error || err.response?.data?.message || err.message || 'CV upload failed. Make sure Cloudinary is configured.');
     } finally {
       setCvUploading(false);
       if (cvInputRef.current) cvInputRef.current.value = '';
@@ -153,7 +153,7 @@ const SettingsAdmin = () => {
       setImageSuccess(true);
       setTimeout(() => setImageSuccess(false), 5000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Image upload failed. Make sure Cloudinary is configured.');
+      alert(err.response?.data?.error || err.response?.data?.message || err.message || 'Image upload failed. Make sure Cloudinary is configured.');
     } finally {
       setImageUploading(false);
       if (imageInputRef.current) imageInputRef.current.value = '';
@@ -312,7 +312,7 @@ const SettingsAdmin = () => {
                         value={h.title}
                         onChange={(e) => handleHighlightChange(idx, 'title', e.target.value)}
                         className={inputClass}
-                        placeholder="Title e.g. 250+ LeetCode Solved"
+                        placeholder="Title e.g. LeetCode Practice"
                       />
                       <input
                         value={h.desc}
@@ -342,6 +342,10 @@ const SettingsAdmin = () => {
                 <input name="github" value={form.github} onChange={handleChange} className={inputClass} placeholder="https://github.com/username" />
               </div>
               <div>
+                <label className={labelClass}>LeetCode URL</label>
+                <input name="leetcode" value={form.leetcode} onChange={handleChange} className={inputClass} placeholder="https://leetcode.com/u/username/" />
+              </div>
+              <div>
                 <label className={labelClass}>LinkedIn URL</label>
                 <input name="linkedin" value={form.linkedin} onChange={handleChange} className={inputClass} placeholder="https://linkedin.com/in/username" />
               </div>
@@ -360,17 +364,6 @@ const SettingsAdmin = () => {
               <div>
                 <label className={labelClass}>Location</label>
                 <input name="location" value={form.location} onChange={handleChange} className={inputClass} placeholder="India" />
-              </div>
-              <div>
-                <label className={labelClass}>Students Mentored</label>
-                <input 
-                  type="number" 
-                  name="studentsMentored" 
-                  value={form.studentsMentored} 
-                  onChange={handleChange} 
-                  className={inputClass} 
-                  placeholder="50" 
-                />
               </div>
               <div className="md:col-span-2">
                 <label className={labelClass}>Profile Image</label>

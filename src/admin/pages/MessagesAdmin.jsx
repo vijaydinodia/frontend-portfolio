@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Trash2, Eye, Mail, MailOpen } from 'lucide-react';
 
@@ -6,6 +7,7 @@ const MessagesAdmin = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedMsg, setSelectedMsg] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const fetchMessages = async () => {
     setLoading(true);
@@ -14,7 +16,25 @@ const MessagesAdmin = () => {
       const res = await axios.get('/api/admin/messages', {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setMessages(res.data);
+      const fetchedMessages = Array.isArray(res.data) ? res.data : [];
+      const linkedMessageId = searchParams.get('message');
+      const linkedMessage = linkedMessageId
+        ? fetchedMessages.find((msg) => msg._id === linkedMessageId)
+        : null;
+
+      setMessages(fetchedMessages);
+
+      if (linkedMessage) {
+        setSelectedMsg(linkedMessage);
+
+        if (!linkedMessage.isRead) {
+          await markAsRead(linkedMessage._id, false);
+          setMessages((prev) => prev.map((msg) => (
+            msg._id === linkedMessage._id ? { ...msg, isRead: true } : msg
+          )));
+          setSelectedMsg((prev) => prev ? { ...prev, isRead: true } : prev);
+        }
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -41,16 +61,32 @@ const MessagesAdmin = () => {
     }
   };
 
-  const markAsRead = async (id) => {
+  const markAsRead = async (id, shouldRefresh = true) => {
     try {
       const token = localStorage.getItem('adminToken');
       await axios.put(`/api/admin/messages/${id}/read`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      fetchMessages();
+      if (shouldRefresh) {
+        fetchMessages();
+      }
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const openMessage = (msg) => {
+    setSelectedMsg(msg);
+    setSearchParams({ message: msg._id });
+
+    if (!msg.isRead) {
+      markAsRead(msg._id);
+    }
+  };
+
+  const backToInbox = () => {
+    setSelectedMsg(null);
+    setSearchParams({});
   };
 
   if (selectedMsg) {
@@ -63,7 +99,7 @@ const MessagesAdmin = () => {
             <p className="text-sm text-textMuted mt-1">{new Date(selectedMsg.createdAt).toLocaleString()}</p>
           </div>
           <button 
-            onClick={() => setSelectedMsg(null)}
+            onClick={backToInbox}
             className="px-4 py-2 border border-white/10 rounded-lg hover:bg-white/5 transition-colors"
           >
             Back to Inbox
@@ -113,10 +149,7 @@ const MessagesAdmin = () => {
                     <td className="p-4">
                       <div className="flex space-x-3 items-center">
                         <button 
-                          onClick={() => { 
-                            setSelectedMsg(msg); 
-                            if (!msg.isRead) markAsRead(msg._id); 
-                          }}
+                          onClick={() => openMessage(msg)}
                           className="text-accent hover:text-white transition-colors"
                         >
                           <Eye size={18} />

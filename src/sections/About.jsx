@@ -4,13 +4,33 @@ import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 import TiltCard from '../components/TiltCard';
 
+const defaultAboutPara2 = "With experience as a MERN Stack Developer Intern, I focus on clean full-stack delivery, strong DSA fundamentals, and hackathon-built problem solving.";
+
+const removeFixedLeetCodeCount = (text) => {
+  if (!text) return text;
+  return /\d+\+?\s+LeetCode/i.test(text) ? defaultAboutPara2 : text;
+};
+
+const normalizeHighlight = (item) => {
+  if (!item?.title || !item?.desc) return null;
+
+  if (/\d+\+?\s+LeetCode/i.test(item.title)) {
+    return {
+      title: 'LeetCode Practice',
+      desc: item.desc,
+    };
+  }
+
+  return item;
+};
+
 const About = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
   const [profile, setProfile] = useState({
     aboutPara1: 'I am a passionate Full Stack Engineer specializing in the MERN stack. My focus is on building robust backend architectures and highly interactive, premium frontend experiences.',
-    aboutPara2: "With experience as a MERN Stack Developer Intern, I've solved over 250+ LeetCode problems and actively participated in hackathons.",
+    aboutPara2: defaultAboutPara2,
     highlights: [
-      { title: '250+ LeetCode Solved', desc: 'Strong foundation in Data Structures and Algorithms.' },
+      { title: 'LeetCode Practice', desc: 'Strong foundation in Data Structures and Algorithms.' },
       { title: 'Hackathon Enthusiast', desc: 'Building MVPs rapidly under pressure.' },
     ],
   });
@@ -21,13 +41,23 @@ const About = () => {
       .catch(() => {});
   }, []);
 
-  const currentHighlights = useMemo(() => {
+  const fallbackHighlights = useMemo(() => {
     return [
-      { title: '250+ LeetCode Solved', desc: 'Strong foundation in Data Structures and Algorithms.' },
+      { title: 'LeetCode Practice', desc: 'Strong foundation in Data Structures and Algorithms.' },
       { title: 'Full Product Delivery', desc: 'Building secure MERN applications and deploying to cloud platforms.' },
       { title: 'Hackathon Enthusiast', desc: 'Rapidly shipping production-ready MVPs under pressure.' },
     ];
   }, []);
+
+  const currentHighlights = useMemo(() => {
+    const savedHighlights = Array.isArray(profile.highlights)
+      ? profile.highlights.map(normalizeHighlight).filter(Boolean)
+      : [];
+
+    return savedHighlights.length ? savedHighlights : fallbackHighlights;
+  }, [fallbackHighlights, profile.highlights]);
+
+  const aboutPara2 = useMemo(() => removeFixedLeetCodeCount(profile.aboutPara2), [profile.aboutPara2]);
 
   return (
     <section id="about" className="py-10 md:py-16 w-full relative overflow-hidden">
@@ -71,7 +101,7 @@ const About = () => {
                 <div className="relative glass rounded-2xl p-8 h-full flex flex-col justify-center border border-white/10">
                   <h3 className="text-2xl font-bold mb-4 text-secondary">My Journey</h3>
                   <p className="text-textMuted mb-4 leading-relaxed font-light">{profile.aboutPara1}</p>
-                  <p className="text-textMuted leading-relaxed font-light">{profile.aboutPara2}</p>
+                  <p className="text-textMuted leading-relaxed font-light">{aboutPara2}</p>
                 </div>
               </TiltCard>
             </div>

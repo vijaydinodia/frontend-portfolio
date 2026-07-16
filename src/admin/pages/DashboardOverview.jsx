@@ -5,7 +5,7 @@ import {
   FolderGit2, Code2, Briefcase, Trophy,
   MessageSquare, Github, Code, Mail,
   TrendingUp, Eye, Clock, ArrowRight,
-  CheckCircle2, AlertCircle
+  CheckCircle2, AlertCircle, BarChart3
 } from 'lucide-react';
 
 const StatCard = ({ icon: Icon, label, value, sub, color, onClick }) => (
@@ -54,6 +54,7 @@ const DashboardOverview = () => {
   const [externalStats, setExternalStats] = useState({ githubRepos: null, leetcodeSolved: null });
   const [recentMessages, setRecentMessages] = useState([]);
   const [profile, setProfile] = useState({ name: 'Admin' });
+  const [visitorsToday, setVisitorsToday] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const token = localStorage.getItem('adminToken');
@@ -62,7 +63,7 @@ const DashboardOverview = () => {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [projects, skills, experiences, achievements, messages, stats, prof] = await Promise.allSettled([
+        const [projects, skills, experiences, achievements, messages, stats, prof, visitors] = await Promise.allSettled([
           axios.get('/api/projects/all', authHeader),
           axios.get('/api/skills', authHeader),
           axios.get('/api/experiences', authHeader),
@@ -70,6 +71,7 @@ const DashboardOverview = () => {
           axios.get('/api/admin/messages', authHeader),
           axios.get('/api/stats'),
           axios.get('/api/profile'),
+          axios.get('/api/visitors/analytics', authHeader),
         ]);
 
         const msgs = messages.status === 'fulfilled' ? messages.value.data : [];
@@ -91,6 +93,9 @@ const DashboardOverview = () => {
         }
         if (prof.status === 'fulfilled') {
           setProfile(prof.value.data?.data || {});
+        }
+        if (visitors.status === 'fulfilled') {
+          setVisitorsToday(visitors.value.data?.data?.totals?.today ?? 0);
         }
       } catch (err) {
         console.error(err);
@@ -133,7 +138,7 @@ const DashboardOverview = () => {
       {/* Content Stats */}
       <div>
         <h2 className="text-sm font-semibold text-textSecondary uppercase tracking-wider mb-4">Content Overview</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           <StatCard icon={FolderGit2} label="Projects" value={counts.projects} color="bg-primary/20" onClick={() => navigate('/admin/projects')} />
           <StatCard icon={Code2} label="Skills" value={counts.skills} color="bg-accent/20" onClick={() => navigate('/admin/skills')} />
           <StatCard icon={Briefcase} label="Experiences" value={counts.experiences} color="bg-secondary/20" onClick={() => navigate('/admin/experience')} />
@@ -145,6 +150,14 @@ const DashboardOverview = () => {
             sub={counts.unread > 0 ? `${counts.unread} unread` : 'All read ✓'}
             color="bg-green-500/20"
             onClick={() => navigate('/admin/messages')}
+          />
+          <StatCard
+            icon={BarChart3}
+            label="Visitors Today"
+            value={visitorsToday}
+            sub="Click for analytics"
+            color="bg-indigo-500/20"
+            onClick={() => navigate('/admin/analytics')}
           />
         </div>
       </div>

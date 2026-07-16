@@ -7,6 +7,7 @@ import {
   Briefcase, 
   Trophy, 
   MessageSquare, 
+  BarChart3,
   Settings, 
   LogOut,
   Menu,
@@ -21,6 +22,7 @@ import ExperienceAdmin from './pages/ExperienceAdmin';
 import AchievementsAdmin from './pages/AchievementsAdmin';
 import MessagesAdmin from './pages/MessagesAdmin';
 import SettingsAdmin from './pages/SettingsAdmin';
+import AnalyticsAdmin from './pages/AnalyticsAdmin';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,6 +36,7 @@ const AdminLayout = () => {
     { name: 'Experience', href: '/admin/experience', icon: Briefcase },
     { name: 'Achievements', href: '/admin/achievements', icon: Trophy },
     { name: 'Messages', href: '/admin/messages', icon: MessageSquare },
+    { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 
@@ -132,6 +135,7 @@ const AdminLayout = () => {
               <Route path="/experience/*" element={<ExperienceAdmin />} />
               <Route path="/achievements/*" element={<AchievementsAdmin />} />
               <Route path="/messages/*" element={<MessagesAdmin />} />
+              <Route path="/analytics" element={<AnalyticsAdmin />} />
               <Route path="/settings/*" element={<SettingsAdmin />} />
             </Routes>
           </div>

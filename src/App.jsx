@@ -4,8 +4,11 @@ import AdminLayout from './admin/AdminLayout'
 import PortfolioPage from './pages/PortfolioPage'
 import AdminLogin from './admin/AdminLogin'
 import RequireAuth from './admin/RequireAuth'
+import useVisitorTracker from './hooks/useVisitorTracker'
 
 function App() {
+  useVisitorTracker();
+
   return (
     <Routes>
       <Route path="/" element={<PortfolioPage />} />

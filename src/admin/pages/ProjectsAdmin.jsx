@@ -28,7 +28,7 @@ const ProjectRow = ({ project, onEdit, onDelete, onDragEnd }) => {
       <td className="p-4 text-textMuted">{project.category}</td>
       <td className="p-4 text-textMuted">{project.displayOrder ?? 0}</td>
       <td className="p-4 text-textMuted">{project.status}</td>
-      <td className="p-4 text-textMuted">{project.featured ? 'Yes' : 'No'}</td>
+      <td className="p-4 text-textMuted">{project.isFeatured ? 'Yes' : 'No'}</td>
       <td className="p-4">
         <div className="flex space-x-3 items-center">
           <button 

@@ -38,8 +38,8 @@ const AdminLayout = () => {
   ];
 
   const handleLogout = () => {
-    // TODO: Clear token and local storage
-    navigate('/');
+    localStorage.removeItem('adminToken');
+    navigate('/admin/login');
   };
 
   return (

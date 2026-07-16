@@ -18,7 +18,7 @@ const ProjectForm = ({ project, onSuccess, onCancel }) => {
     status: project?.status || 'Completed',
     category: project?.category || 'Full Stack',
     displayOrder: project?.displayOrder !== undefined ? project.displayOrder : 0,
-    featured: project?.featured || false,
+    isFeatured: project?.isFeatured || false,
   });
 
   const handleChange = (e) => {
@@ -179,7 +179,7 @@ const ProjectForm = ({ project, onSuccess, onCancel }) => {
           </div>
 
           <div className="flex items-center mt-6">
-            <input type="checkbox" name="featured" checked={formData.featured} onChange={handleChange} className="w-4 h-4 text-primary bg-white/5 border-white/10 rounded focus:ring-primary" />
+            <input type="checkbox" name="isFeatured" checked={formData.isFeatured} onChange={handleChange} className="w-4 h-4 text-primary bg-white/5 border-white/10 rounded focus:ring-primary" />
             <label className="ml-2 text-sm font-medium text-textSecondary">Featured Project</label>
           </div>
         </div>

@@ -12,9 +12,9 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({ type: '', message: '' });
   const [profile, setProfile] = useState({
-    email: 'hello@vijaydinodia.com',
+    email: 'vijaydinodia548@gmail.com',
     location: 'India',
-    phone: '+91 9876543210'
+    phone: '+91 8854823204'
   });
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
 import Base_URL from './api'
 import App from './App.jsx'
+import { Analytics } from '@vercel/analytics/react'
 import './index.css'
 
 // Set global base URL for all axios requests
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
+      <Analytics />
     </BrowserRouter>
   </React.StrictMode>,
 )

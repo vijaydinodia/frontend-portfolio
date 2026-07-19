@@ -4,7 +4,16 @@ import axios from 'axios';
 import {
   Trash2, Eye, Mail, MailOpen, Send, Reply, Clock,
   CheckCircle2, AlertCircle, Loader2, MessageSquare,
+  Monitor, Smartphone, Tablet, Laptop
 } from 'lucide-react';
+
+const DEVICE_ICONS = { Mobile: Smartphone, Tablet: Tablet, Desktop: Monitor, Unknown: Laptop };
+
+const flagEmoji = (code) => {
+  if (!code || code.length !== 2) return '🌍';
+  return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+};
+
 
 const MessagesAdmin = () => {
   const [messages, setMessages] = useState([]);
@@ -183,6 +192,57 @@ const MessagesAdmin = () => {
           {/* Original Message Body */}
           <div className="prose prose-invert max-w-none">
             <p className="text-base leading-relaxed whitespace-pre-wrap text-textMain">{selectedMsg.message}</p>
+          </div>
+        </div>
+
+        {/* Sender Session & Device Details Card */}
+        <div className="glass p-6 rounded-xl border border-white/10 space-y-4">
+          <h3 className="text-sm font-semibold text-textSecondary uppercase tracking-wider flex items-center gap-2">
+            <Monitor size={14} className="text-primary" />
+            Sender Session & Device Details
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-sm">
+            <div className="space-y-1">
+              <span className="text-xs text-textSecondary/70 block">Location</span>
+              <div className="flex items-center gap-2 text-white font-medium">
+                <span>{flagEmoji(selectedMsg.countryCode)}</span>
+                <span>{selectedMsg.city || 'Unknown'}, {selectedMsg.country || 'Unknown'}</span>
+              </div>
+              {selectedMsg.region && selectedMsg.region !== 'Unknown' && (
+                <span className="text-xs text-textSecondary/50 block pl-6">{selectedMsg.region}</span>
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-xs text-textSecondary/70 block">Device & Environment</span>
+              <div className="flex items-center gap-2 text-white font-medium">
+                {(() => {
+                  const Icon = DEVICE_ICONS[selectedMsg.device] || Monitor;
+                  return <Icon size={14} className="text-textSecondary" />;
+                })()}
+                <span>{selectedMsg.device || 'Unknown'}</span>
+              </div>
+              <span className="text-xs text-textSecondary/50 block">
+                {selectedMsg.os || 'Unknown OS'} · {selectedMsg.browser || 'Unknown Browser'}
+              </span>
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-xs text-textSecondary/70 block">Origin Details</span>
+              <div className="text-white truncate font-medium" title={selectedMsg.path || '/'}>
+                Page: <code className="bg-white/5 px-1.5 py-0.5 rounded text-xs font-mono text-accent">{selectedMsg.path || '/'}</code>
+              </div>
+              {selectedMsg.referrer && (
+                <div className="text-xs text-textSecondary/50 truncate" title={selectedMsg.referrer}>
+                  Ref: <span className="font-mono">{selectedMsg.referrer}</span>
+                </div>
+              )}
+              {selectedMsg.ip && (
+                <div className="text-xs text-textSecondary/50 mt-1">
+                  IP: <span className="font-mono">{selectedMsg.ip}</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

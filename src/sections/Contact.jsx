@@ -52,7 +52,12 @@ const Contact = () => {
     setStatus({ type: '', message: '' });
 
     try {
-      const res = await axios.post('/api/contact', formData);
+      const payload = {
+        ...formData,
+        path: window.location.pathname,
+        referrer: document.referrer || '',
+      };
+      const res = await axios.post('/api/contact', payload);
       if (res.status === 201) {
         setStatus({ type: 'success', message: 'Message sent successfully! I will get back to you soon.' });
         setFormData({ name: '', email: '', subject: '', message: '' });

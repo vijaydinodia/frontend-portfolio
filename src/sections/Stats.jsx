@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import CountUp from 'react-countup';
 import axios from 'axios';
-import { FolderGit2, ExternalLink, Sparkles } from 'lucide-react';
+import { FolderGit2, ExternalLink } from 'lucide-react';
 import { SiLeetcode, SiGithub } from 'react-icons/si';
 import TiltCard from '../components/TiltCard';
 
@@ -13,14 +13,14 @@ const toNumber = (value) => {
 };
 
 const Stats = () => {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
-    leetcodeSolved: null,
-    githubRepos: null,
-    projectsBuilt: null,
-    github: null,
-    leetcode: null,
+    leetcodeSolved: 400,
+    githubRepos: 50,
+    projectsBuilt: 18,
+    github: { username: 'vijaydinodia', profileUrl: 'https://github.com/vijaydinodia' },
+    leetcode: { username: 'vijaydinodia', profileUrl: 'https://leetcode.com/u/vijaydinodia/' },
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Stats = () => {
     {
       key: 'leetcode',
       label: 'LeetCode Solved',
-      value: toNumber(stats.leetcodeSolved),
+      value: toNumber(stats.leetcodeSolved) || 400,
       badgeText: '400+ DSA Problems',
       source: stats.leetcode?.username ? `@${stats.leetcode.username}` : '@vijaydinodia',
       href: stats.leetcode?.profileUrl || 'https://leetcode.com/u/vijaydinodia/',
@@ -55,7 +55,7 @@ const Stats = () => {
     {
       key: 'github',
       label: 'GitHub Repositories',
-      value: toNumber(stats.githubRepos),
+      value: toNumber(stats.githubRepos) || 50,
       badgeText: '50+ Open Source Repos',
       source: stats.github?.username ? `@${stats.github.username}` : '@vijaydinodia',
       href: stats.github?.profileUrl || 'https://github.com/vijaydinodia',
@@ -69,7 +69,7 @@ const Stats = () => {
     {
       key: 'projects',
       label: 'Featured Projects',
-      value: toNumber(stats.projectsBuilt),
+      value: toNumber(stats.projectsBuilt) || 18,
       badgeText: 'Full Stack & MERN MVPs',
       source: 'Production Ready',
       href: '#projects',
@@ -91,11 +91,11 @@ const Stats = () => {
       );
     }
 
-    return inView ? <CountUp end={value} duration={2.2} suffix="+" /> : '0';
+    return inView ? <CountUp end={value} duration={2.2} suffix="+" /> : '0+';
   };
 
   return (
-    <section className="py-10 md:py-16 w-full relative border-y border-white/5 bg-card/5">
+    <section className="py-12 md:py-20 w-full relative border-y border-white/5 bg-card/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {cards.map((card, idx) => {
@@ -104,7 +104,7 @@ const Stats = () => {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.6, delay: 0.1 + idx * 0.1, type: 'spring', stiffness: 100 }}
+                transition={{ duration: 0.6, delay: 0.15 + idx * 0.1, ease: [0.25, 0.1, 0.25, 1.0] }}
                 className={`glass h-full min-h-[210px] p-6 sm:p-7 rounded-2xl border ${card.borderColor} shadow-lg transition-all duration-300 flex flex-col justify-between relative overflow-hidden group hover:shadow-2xl`}
               >
                 {/* Radial Glow on Top-Right */}
@@ -112,15 +112,15 @@ const Stats = () => {
 
                 {/* Top Row: Icon + Badge / External Link */}
                 <div className="flex items-center justify-between relative z-10">
-                  <div className="w-13 h-13 p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center group-hover:scale-110 group-hover:border-white/20 transition-all duration-300 shadow-inner">
-                    <Icon className={card.iconColor} size={28} />
+                  <div className="w-12 h-12 p-2.5 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center group-hover:scale-110 group-hover:border-white/20 transition-all duration-300 shadow-inner">
+                    <Icon className={card.iconColor} size={24} />
                   </div>
 
                   <div className="flex items-center gap-1.5 text-xs text-textMuted group-hover:text-white transition-colors">
                     <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${card.badgeBg}`}>
                       {card.source}
                     </span>
-                    {card.href && <ExternalLink size={14} className="opacity-60 group-hover:opacity-100 transition-opacity" />}
+                    {card.href && <ExternalLink size={13} className="opacity-60 group-hover:opacity-100 transition-opacity" />}
                   </div>
                 </div>
 

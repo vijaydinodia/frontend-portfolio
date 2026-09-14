@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 import TiltCard from '../components/TiltCard';
+import { fadeUp, fadeLeft, fadeRight } from '../utils/animations';
 
 const defaultAboutPara2 = "With experience as a MERN Stack Developer Intern at REGex Software Services, I focus on clean full-stack delivery, strong DSA fundamentals, and production-ready problem solving.";
 
@@ -30,8 +31,9 @@ const About = () => {
     aboutPara1: 'I am a passionate Full Stack Engineer specializing in the MERN stack. My focus is on building robust backend architectures and highly interactive, premium frontend experiences.',
     aboutPara2: defaultAboutPara2,
     highlights: [
-      { title: 'LeetCode Practice', desc: 'Strong foundation in Data Structures and Algorithms.' },
-      { title: 'Hackathon Enthusiast', desc: 'Building MVPs rapidly under pressure.' },
+      { title: 'LeetCode Practice', desc: 'Solved 400+ problems with strong Data Structures and Algorithms foundation.' },
+      { title: 'Full Product Delivery', desc: 'Building secure MERN applications and deploying to modern cloud platforms.' },
+      { title: 'Hackathon Enthusiast', desc: 'Rapidly shipping production-ready MVPs under pressure.' },
     ],
   });
 
@@ -43,8 +45,8 @@ const About = () => {
 
   const fallbackHighlights = useMemo(() => {
     return [
-      { title: 'LeetCode Practice', desc: 'Strong foundation in Data Structures and Algorithms.' },
-      { title: 'Full Product Delivery', desc: 'Building secure MERN applications and deploying to cloud platforms.' },
+      { title: 'LeetCode Practice', desc: 'Solved 400+ problems with strong Data Structures and Algorithms foundation.' },
+      { title: 'Full Product Delivery', desc: 'Building secure MERN applications and deploying to modern cloud platforms.' },
       { title: 'Hackathon Enthusiast', desc: 'Rapidly shipping production-ready MVPs under pressure.' },
     ];
   }, []);
@@ -62,20 +64,28 @@ const About = () => {
   return (
     <section id="about" className="py-12 md:py-20 w-full relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-            About <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Me</span>
-          </h2>
+        <div ref={ref}>
+          {/* Section Header with FadeUp */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold">
+              About <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Me</span>
+            </h2>
+          </motion.div>
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Column 1: Profile Photo Card */}
-            <div className="col-span-1 lg:col-span-4 h-full flex flex-col">
+            {/* Column 1: Profile Photo Card (Slides in from Left) */}
+            <motion.div 
+              initial={{ opacity: 0, x: -40 }}
+              animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1.0] }}
+              className="col-span-1 lg:col-span-4 h-full flex flex-col"
+            >
               <TiltCard className="h-full flex flex-col" containerClassName="h-full w-full flex flex-col">
                 <div className="relative group h-full w-full flex flex-col">
                   <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl blur opacity-25 group-hover:opacity-45 transition duration-500 animate-gradient bg-300%"></div>
@@ -88,10 +98,15 @@ const About = () => {
                   </div>
                 </div>
               </TiltCard>
-            </div>
+            </motion.div>
 
-            {/* Column 2: My Journey Narrative Card */}
-            <div className="col-span-1 lg:col-span-4 h-full flex flex-col">
+            {/* Column 2: My Journey Narrative Card (Fades Up in Center) */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.25, 0.1, 0.25, 1.0] }}
+              className="col-span-1 lg:col-span-4 h-full flex flex-col"
+            >
               <TiltCard className="h-full flex flex-col" containerClassName="h-full w-full flex flex-col">
                 <div className="relative group h-full w-full flex flex-col">
                   <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-2xl blur opacity-20 group-hover:opacity-35 transition duration-500"></div>
@@ -125,31 +140,34 @@ const About = () => {
                   </div>
                 </div>
               </TiltCard>
-            </div>
+            </motion.div>
 
-            {/* Column 3: 3 Highlight Cards */}
+            {/* Column 3: 3 Highlight Cards (Slides in from Right, Staggered) */}
             <div className="col-span-1 lg:col-span-4 h-full flex flex-col justify-between gap-4">
               {currentHighlights.map((item, idx) => (
-                <TiltCard key={idx} className="flex-1 h-full flex flex-col" containerClassName="flex-1 h-full flex flex-col">
-                  <motion.div 
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-                    transition={{ duration: 0.5, delay: idx * 0.15 }}
-                    className="glass p-5 sm:p-6 rounded-2xl border-l-4 border-accent hover:border-primary transition-all duration-300 shadow-xl border border-white/10 h-full flex flex-col justify-center group hover:bg-white/[0.07]"
-                  >
-                    <h4 className="text-lg sm:text-xl font-bold text-textMain group-hover:text-accent transition-colors">
-                      {item.title}
-                    </h4>
-                    <p className="text-textMuted text-sm mt-2 font-light leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </motion.div>
-                </TiltCard>
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+                  transition={{ duration: 0.6, delay: 0.3 + idx * 0.15, ease: [0.25, 0.1, 0.25, 1.0] }}
+                  className="flex-1 h-full flex flex-col"
+                >
+                  <TiltCard className="flex-1 h-full flex flex-col" containerClassName="flex-1 h-full flex flex-col">
+                    <div className="glass p-5 sm:p-6 rounded-2xl border-l-4 border-accent hover:border-primary transition-all duration-300 shadow-xl border border-white/10 h-full flex flex-col justify-center group hover:bg-white/[0.07]">
+                      <h4 className="text-lg sm:text-xl font-bold text-textMain group-hover:text-accent transition-colors">
+                        {item.title}
+                      </h4>
+                      <p className="text-textMuted text-sm mt-2 font-light leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </TiltCard>
+                </motion.div>
               ))}
             </div>
 
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

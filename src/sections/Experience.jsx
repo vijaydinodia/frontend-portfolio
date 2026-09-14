@@ -33,25 +33,28 @@ const Experience = () => {
   // Track scrolling progress through the experience container
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 65%", "end 65%"]
+    offset: ["start 75%", "end 75%"]
   });
 
-  const scaleY = useSpring(scrollYProgress, { stiffness: 100, damping: 25, restDelta: 0.001 });
+  const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 25, restDelta: 0.001 });
 
   if (loading) return null;
 
   return (
-    <section id="experience" className="py-10 md:py-16 w-full relative overflow-hidden">
+    <section id="experience" className="py-12 md:py-20 w-full relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-            My <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent to-secondary animate-gradient bg-300%">Experience</span>
-          </h2>
+        <div ref={ref}>
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
+            className="text-center mb-14"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold">
+              My <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent to-secondary animate-gradient bg-300%">Experience</span>
+            </h2>
+          </motion.div>
           
           <div ref={containerRef} className="relative ml-4 md:ml-8 pl-8 md:pl-10">
             {/* Background static line */}
@@ -60,24 +63,33 @@ const Experience = () => {
             {/* Scroll-driven glow progress line */}
             <motion.div 
               style={{ scaleY, transformOrigin: 'top' }}
-              className="absolute left-[17px] md:left-[21px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-primary via-accent to-secondary shadow-[0_0_8px_rgba(6,182,212,0.8)] rounded-full"
+              className="absolute left-[17px] md:left-[21px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-primary via-accent to-secondary shadow-[0_0_12px_rgba(6,182,212,0.8)] rounded-full"
             />
 
             {experiences.map((exp, idx) => (
               <motion.div
                 key={exp._id}
-                initial={{ opacity: 0, x: -40 }}
-                animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
-                transition={{ duration: 0.6, delay: idx * 0.15 }}
+                initial={{ opacity: 0, x: -35 }}
+                animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -35 }}
+                transition={{ duration: 0.6, delay: 0.2 + idx * 0.15, ease: [0.25, 0.1, 0.25, 1.0] }}
                 className="mb-12 relative"
               >
-                {/* Timeline status dot */}
-                <div className="absolute w-4 h-4 rounded-full bg-background border-2 border-accent -left-[22px] md:-left-[26px] top-1.5 shadow-[0_0_8px_rgba(6,182,212,0.6)] z-10"></div>
+                {/* Glowing Timeline status node */}
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  animate={inView ? { scale: 1 } : { scale: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 + idx * 0.15 }}
+                  className="absolute w-4 h-4 rounded-full bg-background border-2 border-accent -left-[22px] md:-left-[26px] top-2 shadow-[0_0_10px_rgba(6,182,212,0.8)] z-10 flex items-center justify-center"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
+                </motion.div>
                 
                 <TiltCard className="w-full">
                   <div className="glass p-6 sm:p-8 rounded-2xl border border-white/10 hover:border-primary/40 hover:shadow-2xl transition-all duration-300 group">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
-                      <h3 className="text-xl sm:text-2xl font-bold text-textMain group-hover:text-primary transition-colors">{exp.role}</h3>
+                      <h3 className="text-xl sm:text-2xl font-bold text-textMain group-hover:text-primary transition-colors">
+                        {exp.role}
+                      </h3>
                       <span className="text-xs font-semibold text-accent bg-accent/15 border border-accent/25 px-3.5 py-1 rounded-full w-fit whitespace-nowrap uppercase tracking-wider shadow-sm">
                         {formatDate(exp.startDate)} – {exp.current ? 'Present' : formatDate(exp.endDate)}
                       </span>
@@ -113,7 +125,10 @@ const Experience = () => {
                     {exp.technologies && exp.technologies.length > 0 && (
                       <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
                         {exp.technologies.map((tech, techIdx) => (
-                          <span key={techIdx} className="text-xs font-semibold px-3 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-textSecondary hover:text-white hover:border-white/20 transition-all duration-200">
+                          <span 
+                            key={techIdx} 
+                            className="text-xs font-semibold px-3 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-textSecondary hover:text-white hover:border-white/30 transition-all duration-200"
+                          >
                             {tech}
                           </span>
                         ))}
@@ -124,7 +139,7 @@ const Experience = () => {
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

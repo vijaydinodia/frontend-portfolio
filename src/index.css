@@ -6,6 +6,18 @@
   body {
     @apply bg-background text-textMain antialiased overflow-x-hidden;
   }
+
+  /* Accessibility: Respect users requesting reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer utilities {
@@ -37,8 +49,8 @@ html.lenis, html.lenis body {
 
 /* Custom premium scrollbar styling */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
 }
 
 ::-webkit-scrollbar-track {

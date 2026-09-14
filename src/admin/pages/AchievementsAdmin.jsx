@@ -86,7 +86,7 @@ const AchievementsAdmin = () => {
                   <tr key={achievement._id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td className="p-4 text-textMain font-medium">{achievement.title}</td>
                     <td className="p-4 text-textMuted">{achievement.organization}</td>
-                    <td className="p-4 text-textMuted">{new Date(achievement.date).toLocaleDateString()}</td>
+                    <td className="p-4 text-textMuted">{achievement.date ? new Date(achievement.date).toLocaleDateString() : 'N/A'}</td>
                     <td className="p-4">
                       <div className="flex space-x-3 items-center">
                         <button 

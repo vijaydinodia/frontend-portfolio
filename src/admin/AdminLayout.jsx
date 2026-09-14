@@ -118,8 +118,8 @@ const AdminLayout = () => {
           <div className="flex-1 flex justify-end">
             <div className="flex items-center gap-4">
               {/* User Menu / Avatar */}
-              <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-sm font-bold text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]">
-                V
+              <div className="h-9 w-9 rounded-full overflow-hidden border border-accent/40 shadow-[0_0_15px_rgba(37,99,235,0.5)]">
+                <img src="/vijay_profile.png" alt="Vijay Dinodia" className="w-full h-full object-cover object-top" />
               </div>
             </div>
           </div>

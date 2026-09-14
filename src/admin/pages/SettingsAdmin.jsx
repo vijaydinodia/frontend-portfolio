@@ -53,7 +53,7 @@ const SettingsAdmin = () => {
           tagline: d.tagline || '',
           subtitle: d.subtitle || '',
           bio: d.bio || '',
-          resumeUrl: d.resumeUrl || '',
+          resumeUrl: d.resumeUrl || '/vijay_cv.pdf',
           aboutPara1: d.aboutPara1 || '',
           aboutPara2: d.aboutPara2 || '',
           highlights: d.highlights || [],

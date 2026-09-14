@@ -92,7 +92,11 @@ const Projects = () => {
                   {displayProjects.map((project) => {
                     // Recruiter Core CS check
                     const keywords = ['api', 'backend', 'auth', 'database', 'sql', 'mongodb', 'server', 'jwt'];
-                    const isBackendCore = keywords.some(k => project.title.toLowerCase().includes(k) || project.shortDescription.toLowerCase().includes(k) || project.techStack?.some(t => t.toLowerCase().includes(k)));
+                    const isBackendCore = keywords.some(k => 
+                      (project.title?.toLowerCase() || '').includes(k) || 
+                      (project.shortDescription?.toLowerCase() || '').includes(k) || 
+                      project.techStack?.some(t => (t?.toLowerCase() || '').includes(k))
+                    );
 
                     return (
                       <TiltCard

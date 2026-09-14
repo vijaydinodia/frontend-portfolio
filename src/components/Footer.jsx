@@ -37,17 +37,17 @@ const Footer = () => {
         
         <div className="flex space-x-6">
           {profile.github && (
-            <a href={profile.github} target="_blank" rel="noreferrer" className="text-textMuted hover:text-primary transition-colors">
+            <a href={profile.github} target="_blank" rel="noreferrer" title="GitHub (50+ Repos)" className="text-textMuted hover:text-white transition-colors">
               <Github size={20} />
             </a>
           )}
           {profile.linkedin && (
-            <a href={profile.linkedin} target="_blank" rel="noreferrer" className="text-textMuted hover:text-primary transition-colors">
+            <a href={profile.linkedin} target="_blank" rel="noreferrer" title="LinkedIn" className="text-textMuted hover:text-[#0A66C2] transition-colors">
               <Linkedin size={20} />
             </a>
           )}
           {profile.leetcode && (
-            <a href={profile.leetcode} target="_blank" rel="noreferrer" className="text-textMuted hover:text-primary transition-colors">
+            <a href={profile.leetcode} target="_blank" rel="noreferrer" title="LeetCode (400+ Solved)" className="text-textMuted hover:text-[#FFA116] transition-colors">
               <SiLeetcode size={20} />
             </a>
           )}

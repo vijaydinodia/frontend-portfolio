@@ -3,6 +3,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Stars, Float } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { SiLeetcode, SiGithub } from 'react-icons/si';
+import { ExternalLink, Linkedin } from 'lucide-react';
 import Magnetic from '../components/Magnetic';
 
 const InteractiveParticles = () => {
@@ -149,7 +151,11 @@ const Hero = () => {
     tagline: 'I build Digital Experiences',
     subtitle: 'Welcome to my world',
     bio: 'A passionate MERN Stack Developer transforming complex problems into elegant, premium, and highly scalable solutions.',
-    resumeUrl: '',
+    resumeUrl: '/vijay_cv.pdf',
+    profileImageUrl: '/vijay_profile.png',
+    github: 'https://github.com/vijaydinodia',
+    linkedin: 'https://www.linkedin.com/in/vijaydinodia',
+    leetcode: 'https://leetcode.com/u/vijaydinodia/',
   });
   const [isMobile, setIsMobile] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -166,7 +172,16 @@ const Hero = () => {
 
   useEffect(() => {
     axios.get('/api/profile')
-      .then(res => setProfile(prev => ({ ...prev, ...res.data.data })))
+      .then(res => {
+        if (res.data?.data) {
+          setProfile(prev => ({
+            ...prev,
+            ...res.data.data,
+            resumeUrl: res.data.data.resumeUrl || '/vijay_cv.pdf',
+            profileImageUrl: res.data.data.profileImageUrl || '/vijay_profile.png'
+          }));
+        }
+      })
       .catch(() => {});
   }, []);
 
@@ -175,22 +190,14 @@ const Hero = () => {
   }, [profile.name]);
 
   const ctas = useMemo(() => {
-    const resumeBtn = profile.resumeUrl ? (
-      <Magnetic key="resume">
-        <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer" className="px-8 py-4 rounded-full border border-primary/50 bg-primary/10 text-white font-medium transition-all hover:bg-primary/20 hover:-translate-y-1 block">
-          📄 Download Resume
-        </a>
-      </Magnetic>
-    ) : (
+    const targetResumeUrl = profile.resumeUrl || '/vijay_cv.pdf';
+    const resumeBtn = (
       <Magnetic key="resume">
         <a 
-          href="#contact" 
-          onClick={(e) => {
-            if (!profile.resumeUrl) {
-              e.preventDefault();
-              alert("Resume currently unavailable. Please check back later or contact me.");
-            }
-          }}
+          href={targetResumeUrl} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          download={targetResumeUrl.endsWith('.pdf') ? "Vijay_Dinodia_Resume.pdf" : undefined}
           className="px-8 py-4 rounded-full border border-primary/50 bg-primary/10 text-white font-medium transition-all hover:bg-primary/20 hover:-translate-y-1 block"
         >
           📄 Download Resume
@@ -218,35 +225,31 @@ const Hero = () => {
   }, [profile.resumeUrl]);
 
   return (
-    <section id="home" className="relative min-h-screen w-full flex items-center overflow-hidden pt-20 pb-10">
-      {!isSmallScreen && (
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
-          <Canvas camera={{ position: [0, 0, 1] }} dpr={[1, 1.5]} gl={{ antialias: false }}>
-            <Stars radius={100} depth={50} count={1000} factor={3} saturation={0} fade speed={1} />
-          </Canvas>
-        </div>
-      )}
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
+    <section id="home" className="min-h-screen relative flex items-center justify-center pt-24 pb-12 overflow-hidden">
+      {/* Background radial spotlight */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/15 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse [animation-duration:6s]"></div>
+      <div className="absolute top-1/2 right-1/4 w-[450px] h-[450px] bg-accent/15 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          <div className="text-left flex flex-col justify-center order-1 lg:order-1 pt-10 lg:pt-0">
+          <div className="flex flex-col items-start text-left order-1 lg:order-1">
+            
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="flex items-center space-x-4 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 text-textMuted text-xs sm:text-sm font-medium mb-6 hover:border-accent/40 transition-colors"
             >
-              <div className="h-[2px] w-12 bg-accent"></div>
-              <p className="text-accent text-lg md:text-xl font-medium tracking-widest uppercase">
-                {profile.subtitle}
-              </p>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 -ml-4.5"></span>
+              <span>{profile.subtitle}</span>
             </motion.div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4 flex flex-wrap overflow-hidden">
-              {titleWords.map((wordChars, wordIdx) => (
-                <span key={wordIdx} className="flex whitespace-nowrap mr-4 md:mr-6 last:mr-0">
-                  {wordChars.map((char, charIdx) => {
+            <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight mb-4 flex flex-wrap gap-x-4">
+              {titleWords.map((word, wordIdx) => (
+                <span key={wordIdx} className="inline-flex overflow-hidden py-1">
+                  {word.map((char, charIdx) => {
                     const globalIdx = titleWords.slice(0, wordIdx).reduce((acc, w) => acc + w.length, 0) + charIdx;
                     return (
                       <motion.span
@@ -285,72 +288,120 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.3 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-4 mb-6"
             >
               {ctas}
+            </motion.div>
+
+            {/* Quick Developer Profiles */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.5 }}
+              className="flex flex-wrap items-center gap-3 pt-2"
+            >
+              <span className="text-xs text-textMuted font-medium uppercase tracking-wider mr-1">Connect:</span>
+              <a
+                href={profile.github || "https://github.com/vijaydinodia"}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-white/25 hover:bg-white/10 text-xs font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <SiGithub size={14} className="text-white" />
+                <span>GitHub (50+ Repos)</span>
+              </a>
+              <a
+                href={profile.leetcode || "https://leetcode.com/u/vijaydinodia/"}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFA116]/10 border border-[#FFA116]/30 hover:border-[#FFA116]/60 hover:bg-[#FFA116]/20 text-xs font-semibold text-[#FFA116] transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <SiLeetcode size={14} className="text-[#FFA116]" />
+                <span>LeetCode (400+ Solved)</span>
+              </a>
+              {profile.linkedin && (
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 hover:border-blue-500/60 hover:bg-blue-500/20 text-xs font-semibold text-blue-400 transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  <Linkedin size={14} className="text-[#0A66C2]" />
+                  <span>LinkedIn</span>
+                </a>
+              )}
             </motion.div>
           </div>
 
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="h-[40vh] lg:h-[80vh] w-full relative order-2 lg:order-2 flex items-center justify-center pt-6 lg:pt-0"
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full relative order-2 lg:order-2 flex items-center justify-center py-6 lg:py-0"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-accent/10 rounded-full blur-3xl filter pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-accent/15 to-secondary/20 rounded-full blur-3xl filter pointer-events-none"></div>
             
-            {isMobile ? (
-              <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
-                {/* Rotating Outer Glow Ring */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary rounded-full animate-spin [animation-duration:8s] opacity-40 blur-md"></div>
-                
-                {/* Glass Card for Avatar */}
-                <div className="relative w-[90%] h-[90%] bg-card/50 backdrop-blur-xl rounded-full border border-white/10 flex items-center justify-center overflow-hidden shadow-2xl group transition-all duration-300 hover:border-accent/40">
-                  {profile.profileImageUrl ? (
-                    <img 
-                      src={profile.profileImageUrl} 
-                      alt={profile.name} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 contrast-110" 
-                    />
-                  ) : (
-                    <div className="text-center p-6 select-none">
-                      <span className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-                        {profile.name ? profile.name.split(' ').map(n => n[0]).join('') : 'VD'}
-                      </span>
-                    </div>
-                  )}
-                </div>
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[420px] lg:h-[420px] flex items-center justify-center">
+              {/* Rotating Outer Glow Ring */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary rounded-full animate-spin [animation-duration:12s] opacity-50 blur-md"></div>
+              
+              {/* Ambient Ring Border */}
+              <div className="absolute inset-[-4px] rounded-full border border-accent/30 animate-pulse [animation-duration:4s]"></div>
 
-                {/* Floating Tech Badges with micro-animations */}
-                <motion.div 
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                  className="absolute -top-3 left-4 px-3 py-1.5 bg-card/85 backdrop-blur-md rounded-xl border border-white/10 shadow-lg flex items-center justify-center cursor-default select-none hover:border-primary/40 transition-colors"
-                >
-                  <span className="text-[10px] md:text-xs font-black tracking-widest text-primary uppercase">React</span>
-                </motion.div>
-                
-                <motion.div 
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute -bottom-3 right-4 px-3 py-1.5 bg-card/85 backdrop-blur-md rounded-xl border border-white/10 shadow-lg flex items-center justify-center cursor-default select-none hover:border-accent/40 transition-colors"
-                >
-                  <span className="text-[10px] md:text-xs font-black tracking-widest text-accent uppercase">Node</span>
-                </motion.div>
-
-                <motion.div 
-                  animate={{ x: [0, 8, 0] }}
-                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 1 }}
-                  className="absolute top-1/2 -right-4 md:-right-6 -translate-y-1/2 px-3 py-1.5 bg-card/85 backdrop-blur-md rounded-xl border border-white/10 shadow-lg flex items-center justify-center cursor-default select-none hover:border-secondary/40 transition-colors"
-                >
-                  <span className="text-[10px] md:text-xs font-black tracking-widest text-secondary uppercase">MERN</span>
-                </motion.div>
+              {/* Glass Card for Avatar */}
+              <div className="relative w-[90%] h-[90%] bg-card/60 backdrop-blur-2xl rounded-full border-2 border-white/20 flex items-center justify-center overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.3)] group transition-all duration-500 hover:border-accent/60 hover:shadow-[0_0_70px_rgba(6,182,212,0.5)]">
+                {profile.profileImageUrl ? (
+                  <img 
+                    src={profile.profileImageUrl} 
+                    alt={profile.name || "Vijay Dinodia"} 
+                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" 
+                  />
+                ) : (
+                  <div className="text-center p-6 select-none">
+                    <span className="text-5xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+                      {profile.name ? profile.name.split(' ').map(n => n[0]).join('') : 'VD'}
+                    </span>
+                  </div>
+                )}
               </div>
-            ) : (
-              <Canvas camera={{ position: [0, 0, 7.5] }} dpr={[1, 1.5]}>
-                <Interactive3DScene />
-              </Canvas>
-            )}
+
+              {/* Floating Tech Badges with micro-animations */}
+              <motion.div 
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                className="absolute -top-3 left-2 sm:left-4 px-3.5 py-1.5 bg-card/90 backdrop-blur-xl rounded-2xl border border-white/15 shadow-xl flex items-center gap-2 cursor-default select-none hover:border-primary/50 transition-colors"
+              >
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                <span className="text-[11px] sm:text-xs font-black tracking-widest text-primary uppercase">React</span>
+              </motion.div>
+              
+              <motion.div 
+                animate={{ y: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+                className="absolute -bottom-3 right-2 sm:right-4 px-3.5 py-1.5 bg-card/90 backdrop-blur-xl rounded-2xl border border-white/15 shadow-xl flex items-center gap-2 cursor-default select-none hover:border-accent/50 transition-colors"
+              >
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                <span className="text-[11px] sm:text-xs font-black tracking-widest text-accent uppercase">Node.js</span>
+              </motion.div>
+
+              <motion.div 
+                animate={{ x: [0, 6, 0] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 1 }}
+                className="absolute top-1/2 -right-3 sm:-right-6 -translate-y-1/2 px-3.5 py-1.5 bg-card/90 backdrop-blur-xl rounded-2xl border border-white/15 shadow-xl flex items-center gap-2 cursor-default select-none hover:border-secondary/50 transition-colors"
+              >
+                <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                <span className="text-[11px] sm:text-xs font-black tracking-widest text-secondary uppercase">MERN</span>
+              </motion.div>
+
+              <motion.div 
+                animate={{ x: [0, -6, 0] }}
+                transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 1.5 }}
+                className="absolute top-1/2 -left-3 sm:-left-6 -translate-y-1/2 px-3.5 py-1.5 bg-card/90 backdrop-blur-xl rounded-2xl border border-white/15 shadow-xl flex items-center gap-2 cursor-default select-none hover:border-emerald-400/50 transition-colors"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="text-[11px] sm:text-xs font-black tracking-widest text-emerald-400 uppercase">DSA / 400+</span>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

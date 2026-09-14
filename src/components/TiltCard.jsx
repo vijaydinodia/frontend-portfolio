@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
-const TiltCard = ({ children, className = '', containerClassName = '' }) => {
+const TiltCard = ({ children, className = '', containerClassName = 'h-full w-full' }) => {
   const cardRef = useRef(null);
 
   // Scale motion values for tracking zoom-in hover effect
@@ -12,7 +12,7 @@ const TiltCard = ({ children, className = '', containerClassName = '' }) => {
   const springScale = useSpring(scale, springConfig);
 
   const handleMouseEnter = () => {
-    scale.set(1.03); // Zoom in / scale up slightly on hover
+    scale.set(1.02); // Zoom in / scale up slightly on hover
   };
 
   const handleMouseLeave = () => {
@@ -28,7 +28,7 @@ const TiltCard = ({ children, className = '', containerClassName = '' }) => {
         style={{
           scale: springScale,
         }}
-        className={className}
+        className={`h-full w-full ${className}`}
       >
         {children}
       </motion.div>

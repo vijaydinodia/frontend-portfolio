@@ -26,8 +26,8 @@ const initialProfile = {
 const initialProjects = [
   {
     _id: 'proj-interviewflow',
-    title: 'InterviewFlow - Technical Assessment Platform',
-    slug: 'interviewflow-technical-assessment-platform',
+    title: 'InterviewFlow',
+    slug: 'interviewflow-interview-job-preparation-platform',
     shortDescription: 'Full-stack enterprise technical interview management and candidate assessment SaaS platform with embedded Monaco editor & RBAC.',
     fullDescription: '<p>InterviewFlow is an enterprise-grade technical interview management and candidate assessment SaaS platform engineered to streamline the end-to-end recruitment lifecycle. It centralizes real-time candidate evaluations, dynamic role-based workflow coordination, and secure document verification into a single unified workspace.</p><p>Key architectural components include an embedded Monaco code editor for live coding rounds, multi-role JWT authentication (Candidate, Interviewer, Company, Super Admin), Cloudinary streaming for resumes and profile assets, and a low-overhead system telemetry daemon monitoring CPU, memory, and database latency.</p>',
     techStack: ['React', 'Node.js', 'Express', 'PostgreSQL / MySQL', 'Sequelize ORM', 'TailwindCSS', 'Monaco Editor', 'Cloudinary', 'JWT', 'REST API'],
@@ -35,8 +35,8 @@ const initialProjects = [
     status: 'Completed',
     isFeatured: true,
     displayOrder: 0,
-    liveUrl: 'https://interviewflow-platform.vercel.app',
-    githubUrl: 'https://github.com/vijaydinodia/InterviewFlow',
+    liveUrl: 'https://interviewflow-vijay-dinodia.vercel.app/',
+    githubUrl: 'https://github.com/vijaydinodia',
     thumbnail: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
     keyFeatures: [
       'Role-Based Access Control (RBAC) across Candidate, Interviewer, Company, Super Admin',
@@ -51,8 +51,8 @@ const initialProjects = [
   },
   {
     _id: 'proj-sevasetu',
-    title: 'SevaSetu - On-Demand Local Services Platform',
-    slug: 'sevasetu-on-demand-local-services',
+    title: 'SevaSetu',
+    slug: 'sevasetu-on-demand-local-services-platform',
     shortDescription: 'Hyper-local home services & KYC marketplace with two-phase OTP booking execution and geo-location constraints.',
     fullDescription: '<p>SevaSetu is an on-demand hyper-local home services and provider booking marketplace designed to connect customers with verified skilled service providers. It solves trust, transparency, and geographical fragmentation in local home services through strict KYC verification, dynamic location/pincode filtering, and automated two-phase OTP job execution tracking.</p><p>Features include multi-role administration, category-based approval flows, automated password generation with HTML email delivery, in-memory Multer buffering with Cloudinary, and resilient MongoDB transactions with replica-set fallback.</p>',
     techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'Mongoose', 'Cloudinary', 'Nodemailer', 'TailwindCSS', 'JWT', 'REST API'],
@@ -60,8 +60,8 @@ const initialProjects = [
     status: 'Completed',
     isFeatured: true,
     displayOrder: 1,
-    liveUrl: 'https://backend-sevasetu.onrender.com',
-    githubUrl: 'https://github.com/vijaydinodia/frontend-sevaSetu.git',
+    liveUrl: 'https://frontend-seva-setu.vercel.app/',
+    githubUrl: 'https://github.com/vijaydinodia',
     thumbnail: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80',
     keyFeatures: [
       'Provider KYC Verification Workflow with identity approval & automated HTML onboarding emails',
@@ -75,9 +75,9 @@ const initialProjects = [
     isDeleted: false
   },
   {
-    _id: 'proj-1',
-    title: 'MediCore - Hospital Management System',
-    slug: 'medicore-hospital-management-system',
+    _id: 'proj-medicore',
+    title: 'MediCore',
+    slug: 'medicore-hospital-management-platform',
     shortDescription: 'Full-stack MERN healthcare application with 7 role-specific portals, dynamic slot booking & Razorpay integration.',
     fullDescription: '<p>MediCore is a comprehensive, multi-role hospital management web platform designed to streamline clinical, administrative, and pharmacy workflows. The system bridges the gap between healthcare providers and patients by centralizing doctor discovery, automated slot-based appointment scheduling, diagnostic laboratory management, and online pharmacy orders.</p><p>Features 7 role-specific portals (Super Admin, Hospital Admin, Doctor, Receptionist, Diagnostic Lab, Medical Store, Patient), Razorpay payment processing, SendGrid transactional emails, and Cloudinary medical report uploads.</p>',
     techStack: ['React 19', 'Node.js', 'Express 5', 'MongoDB', 'Mongoose 9', 'TailwindCSS v4', 'Material UI', 'Razorpay', 'Cloudinary', 'SendGrid', 'JWT'],
@@ -85,8 +85,8 @@ const initialProjects = [
     status: 'Completed',
     isFeatured: true,
     displayOrder: 2,
-    liveUrl: 'https://medicore-health.vercel.app',
-    githubUrl: 'https://github.com/vijaydinodia/medicore-frontend.git',
+    liveUrl: 'https://medicore-vijay-dinodia.onrender.com/',
+    githubUrl: 'https://github.com/vijaydinodia',
     thumbnail: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
     keyFeatures: [
       'Multi-Role Access Control (RBAC) across 7 specialized dashboards',
@@ -101,8 +101,8 @@ const initialProjects = [
   },
   {
     _id: 'proj-task-manager',
-    title: 'Task Manager (MERN Stack)',
-    slug: 'task-manager-mern-stack',
+    title: 'Task Manager',
+    slug: 'task-manager-trello-inspired-platform',
     shortDescription: 'Full-stack MERN task management application with @dnd-kit Kanban board, bulk Excel import & SendGrid scheduler.',
     fullDescription: '<p>Task Manager is a full-stack web application designed to streamline daily task management, team workflows, and project organization. It solves communication bottlenecks and tracking inefficiencies by providing role-based access control for administrators and standard users, interactive Kanban boards, and status lifecycle management.</p><p>Key highlights include @dnd-kit drag-and-drop tag boards, XLSX bulk spreadsheet import with Multer memory buffering, automated timezone-aware daily HTML email digests via SendGrid, and comprehensive analytics tracking.</p>',
     techStack: ['React 19', 'Node.js', 'Express 5', 'MongoDB', 'Mongoose', 'TailwindCSS', '@dnd-kit', 'SendGrid', 'Multer', 'XLSX', 'JWT'],
@@ -110,8 +110,8 @@ const initialProjects = [
     status: 'Completed',
     isFeatured: true,
     displayOrder: 3,
-    liveUrl: 'https://backend-1tqe.onrender.com',
-    githubUrl: 'https://github.com/vijaydinodia/Task-Manger',
+    liveUrl: 'https://task-manger-frontend-3zoz.onrender.com/',
+    githubUrl: 'https://github.com/vijaydinodia',
     thumbnail: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80',
     keyFeatures: [
       'Interactive Drag-and-Drop Kanban Tag Board utilizing @dnd-kit',
@@ -308,9 +308,17 @@ const initLocalStorage = () => {
   if (
     !storedProjects || 
     storedProjects.length !== initialProjects.length || 
-    !storedProjects.some(p => p._id === 'proj-task-manager') ||
-    !storedProjects.some(p => p._id === 'proj-interviewflow') ||
-    !storedProjects.some(p => p._id === 'proj-sevasetu')
+    storedProjects[0]?._id !== 'proj-interviewflow' ||
+    storedProjects[1]?._id !== 'proj-sevasetu' ||
+    storedProjects[2]?._id !== 'proj-medicore' ||
+    storedProjects[3]?._id !== 'proj-task-manager' ||
+    storedProjects.some(p => 
+      p.liveUrl === 'https://medicore-health.vercel.app' || 
+      p.liveUrl === 'https://backend-sevasetu.onrender.com' || 
+      p.liveUrl === 'https://interviewflow-platform.vercel.app' || 
+      p.liveUrl === 'https://backend-1tqe.onrender.com' ||
+      (p.githubUrl && p.githubUrl !== 'https://github.com/vijaydinodia')
+    )
   ) {
     setItem('_mock_projects', initialProjects);
   }
@@ -388,6 +396,7 @@ export const setupMockBackend = () => {
       else if (cleanUrl === '/api/projects' && method === 'GET') {
         const all = getItem('_mock_projects', initialProjects);
         const active = all.filter(p => !p.isDeleted);
+        active.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
         responseData = { success: true, data: active };
       }
       else if (cleanUrl === '/api/projects/all' && method === 'GET') {

@@ -173,20 +173,18 @@ const Projects = () => {
                                 )}
                               </div>
 
-                              <div className="flex items-center space-x-5 border-t border-white/10 pt-4 mt-auto">
-                                {project.githubUrl && (
-                                  <Magnetic range={30}>
-                                    <a 
-                                      href={project.githubUrl} 
-                                      target="_blank" 
-                                      rel="noreferrer" 
-                                      className="flex items-center text-xs sm:text-sm font-semibold text-textMuted hover:text-white transition-colors py-1 hover:scale-105 active:scale-95"
-                                      onClick={(e) => e.stopPropagation()}
-                                    >
-                                      <Github size={16} className="mr-1.5" /> Code
-                                    </a>
-                                  </Magnetic>
-                                )}
+                              <div className="flex items-center space-x-4 border-t border-white/10 pt-4 mt-auto">
+                                <Magnetic range={30}>
+                                  <a 
+                                    href={project.githubUrl || 'https://github.com/vijaydinodia'} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="flex items-center text-xs sm:text-sm font-semibold text-textMuted hover:text-white transition-colors py-1 hover:scale-105 active:scale-95"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <Github size={16} className="mr-1.5" /> GitHub
+                                  </a>
+                                </Magnetic>
                                 {project.liveUrl && (
                                   <Magnetic range={30}>
                                     <a 
@@ -372,30 +370,6 @@ const Projects = () => {
                       <span className="text-textMuted font-light">Category</span>
                       <span className="text-textMain font-medium">{selectedProject.category}</span>
                     </div>
-
-                    {selectedProject.metrics && (Object.values(selectedProject.metrics).some(v => v)) && (
-                      <div className="border-t border-white/5 pt-4 mt-4 space-y-2.5">
-                        <span className="text-xs font-semibold text-textMuted uppercase tracking-wider block">Key Performance Metrics</span>
-                        {selectedProject.metrics.users && (
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-textMuted font-light">Active Users</span>
-                            <span className="text-accent font-semibold">{selectedProject.metrics.users}</span>
-                          </div>
-                        )}
-                        {selectedProject.metrics.performanceScore && (
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-textMuted font-light">Performance</span>
-                            <span className="text-green-500 font-semibold">{selectedProject.metrics.performanceScore}</span>
-                          </div>
-                        )}
-                        {selectedProject.metrics.apiCalls && (
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-textMuted font-light">API Requests</span>
-                            <span className="text-secondary font-semibold">{selectedProject.metrics.apiCalls}</span>
-                          </div>
-                        )}
-                      </div>
-                    )}
                   </div>
 
                   <div className="glass p-6 rounded-2xl border border-white/10 space-y-4">
@@ -419,21 +393,19 @@ const Projects = () => {
                         rel="noreferrer" 
                         className="flex items-center justify-center w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent hover:from-primaryHover hover:to-accentHover text-white font-bold transition-all duration-300 shadow-[0_4px_20px_rgba(37,99,235,0.35)] text-center gap-2 text-sm sm:text-base"
                       >
-                        <ExternalLink size={18} /> View Live Demo
+                        <ExternalLink size={18} /> Live Demo
                       </motion.a>
                     )}
-                    {selectedProject.githubUrl && (
-                      <motion.a 
-                        whileHover={{ scale: 1.02, y: -2 }}
-                        whileTap={{ scale: 0.98 }}
-                        href={selectedProject.githubUrl} 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        className="flex items-center justify-center w-full px-6 py-3.5 rounded-xl border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-white font-bold transition-all duration-300 text-center gap-2 text-sm sm:text-base"
-                      >
-                        <Github size={18} /> Source Code Repository
-                      </motion.a>
-                    )}
+                    <motion.a 
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      href={selectedProject.githubUrl || 'https://github.com/vijaydinodia'} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      className="flex items-center justify-center w-full px-6 py-3.5 rounded-xl border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-white font-bold transition-all duration-300 text-center gap-2 text-sm sm:text-base"
+                    >
+                      <Github size={18} /> GitHub
+                    </motion.a>
                   </div>
                 </div>
               </div>

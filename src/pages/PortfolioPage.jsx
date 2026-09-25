@@ -11,6 +11,9 @@ import Projects from '../sections/Projects';
 import Stats from '../sections/Stats';
 import Contact from '../sections/Contact';
 import Preloader from '../components/Preloader';
+import ScrollProgress from '../components/animations/ScrollProgress';
+import MouseFollowGlow from '../components/animations/MouseFollowGlow';
+import SectionDivider from '../components/animations/SectionDivider';
 import Lenis from '@studio-freight/lenis';
 
 const PortfolioPage = () => {
@@ -44,6 +47,8 @@ const PortfolioPage = () => {
 
   return (
     <div className="bg-background min-h-screen text-textMain selection:bg-primary/30 relative">
+      <ScrollProgress />
+      <MouseFollowGlow />
       <Preloader onLoaded={() => setIsLoaded(true)} />
       <Cursor />
       
@@ -55,11 +60,16 @@ const PortfolioPage = () => {
         <Navigation />
         <main>
           <Hero />
+          <SectionDivider />
           <About />
+          <SectionDivider />
           <Skills />
+          <SectionDivider />
           <Experience />
+          <SectionDivider />
           <Projects />
           <Stats />
+          <SectionDivider />
           <Contact />
         </main>
         <Footer />

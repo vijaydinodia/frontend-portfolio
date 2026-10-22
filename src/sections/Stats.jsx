@@ -18,7 +18,7 @@ const Stats = () => {
   const [stats, setStats] = useState({
     leetcodeSolved: 400,
     githubRepos: 50,
-    projectsBuilt: 18,
+    projectsBuilt: 19,
     github: { username: 'vijaydinodia', profileUrl: 'https://github.com/vijaydinodia' },
     leetcode: { username: 'vijaydinodia', profileUrl: 'https://leetcode.com/u/vijaydinodia/' },
   });
@@ -69,7 +69,7 @@ const Stats = () => {
     {
       key: 'projects',
       label: 'Featured Projects',
-      value: toNumber(stats.projectsBuilt) || 18,
+      value: toNumber(stats.projectsBuilt) || 19,
       badgeText: 'Full Stack & MERN MVPs',
       source: 'Production Ready',
       href: '#projects',

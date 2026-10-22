@@ -37,7 +37,34 @@ const initialProjects = [
     displayOrder: 0,
     liveUrl: 'https://interviewflow-vijay-dinodia.vercel.app/',
     githubUrl: 'https://github.com/vijaydinodia',
-    thumbnail: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
+    thumbnail: '/projects/interviewflow/interviewflow-hero.png',
+    screenshots: [
+      {
+        title: 'Master Technical Interviews & Skill Matching Hero',
+        url: '/projects/interviewflow/interviewflow-hero.png',
+        caption: 'Landing interface showcasing 1:1 technical mock interviews, verified skill rating scorecards, and direct recruiter hiring.'
+      },
+      {
+        title: 'Super Admin Master Control & Infrastructure Telemetry',
+        url: '/projects/interviewflow/interviewflow-admin.png',
+        caption: 'Master control dashboard monitoring 99.9% platform availability, real-time latency, active login sessions, and DSA question bank.'
+      },
+      {
+        title: 'Candidate 1:1 Mock Interview & FlowCode IDE Workspace',
+        url: '/projects/interviewflow/interviewflow-candidate-dashboard.png',
+        caption: 'Candidate dashboard featuring 1:1 mock interviews with engineering leads, live IDE problem solving, and company invites.'
+      },
+      {
+        title: 'Problem Solving Analytics & Performance Metrics',
+        url: '/projects/interviewflow/interviewflow-candidate-analytics.png',
+        caption: 'Candidate performance analytics tracking solved problem difficulty distribution, submission accuracy (84.6%), and language breakdown.'
+      },
+      {
+        title: 'Technical Interview Platform & Secure Sign In Portal',
+        url: '/projects/interviewflow/interviewflow-auth.png',
+        caption: 'Split authentication portal showcasing live coding IDE preview, AI evaluation scorecards, and multi-role credentials.'
+      }
+    ],
     keyFeatures: [
       'Role-Based Access Control (RBAC) across Candidate, Interviewer, Company, Super Admin',
       'Embedded Monaco code editor workspace for real-time coding evaluations',
@@ -62,7 +89,29 @@ const initialProjects = [
     displayOrder: 1,
     liveUrl: 'https://frontend-seva-setu.vercel.app/',
     githubUrl: 'https://github.com/vijaydinodia',
-    thumbnail: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80',
+    thumbnail: '/projects/sevasetu/sevasetu-hero.png',
+    screenshots: [
+      {
+        title: 'House Help Booking & Service Discovery',
+        url: '/projects/sevasetu/sevasetu-hero.png',
+        caption: 'Bilingual customer booking portal with real-time active pros counter and verified housekeeping experts.'
+      },
+      {
+        title: 'Super Admin Overview Dashboard',
+        url: '/projects/sevasetu/sevasetu-dashboard.png',
+        caption: 'Central control center monitoring platform-wide users, admins, active providers, bookings, and categories.'
+      },
+      {
+        title: 'Revenue & Bookings Trend Analytics',
+        url: '/projects/sevasetu/sevasetu-analytics.png',
+        caption: 'Interactive 6-month historical platform financial revenue trends and booking volume analytics.'
+      },
+      {
+        title: 'Authentication & Onboarding Portal',
+        url: '/projects/sevasetu/sevasetu-auth.png',
+        caption: 'Secure multi-provider onboarding with standard email/password authentication and Google OAuth integration.'
+      }
+    ],
     keyFeatures: [
       'Provider KYC Verification Workflow with identity approval & automated HTML onboarding emails',
       'Two-Phase OTP Service Validation (Job Start & Job Completion OTPs) to eliminate billing disputes',
@@ -87,7 +136,29 @@ const initialProjects = [
     displayOrder: 2,
     liveUrl: 'https://medicore-vijay-dinodia.onrender.com/',
     githubUrl: 'https://github.com/vijaydinodia',
-    thumbnail: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
+    thumbnail: '/projects/medicore/medicore-hospital-dashboard.png',
+    screenshots: [
+      {
+        title: 'Hospital Admin Dashboard & Financial Revenue Analytics',
+        url: '/projects/medicore/medicore-hospital-dashboard.png',
+        caption: 'Central hospital workspace displaying consultation vs. diagnostic revenue, 30-day trends, and payment method distribution.'
+      },
+      {
+        title: 'Command Center & Hospital Governance',
+        url: '/projects/medicore/medicore-governance.png',
+        caption: 'Super Admin governance portal reviewing hospital registrations, live record statuses, and access permissions.'
+      },
+      {
+        title: 'Care Network Operations & Secure Role Sign In',
+        url: '/projects/medicore/medicore-signin.png',
+        caption: 'Unified role-based authentication portal providing single-entry access into 7 distinct hospital workspaces.'
+      },
+      {
+        title: 'Hospital Onboarding & Registration Form',
+        url: '/projects/medicore/medicore-onboarding.png',
+        caption: 'Multi-stage hospital onboarding wizard with real-time readiness scoring, facility verification, and document submission.'
+      }
+    ],
     keyFeatures: [
       'Multi-Role Access Control (RBAC) across 7 specialized dashboards',
       'Dynamic Slot-Based Appointment Booking with Razorpay integration',
@@ -100,6 +171,61 @@ const initialProjects = [
     isDeleted: false
   },
   {
+    _id: 'proj-rajexamvault',
+    title: 'Raj Exam Vault',
+    slug: 'raj-exam-vault-edtech-cbt-assessment-platform',
+    shortDescription: 'Full-stack SaaS EdTech platform & bilingual CBT mock test simulator for Rajasthan competitive exams with recursive syllabus & real-time telemetry.',
+    fullDescription: '<p>Raj Exam Vault (राजस्थान एग्जाम वॉल्ट) is a specialized full-stack educational SaaS platform engineered to streamline preparation for Rajasthan state government competitive exams (RPSC RAS, REET, Police, Patwari, CET, VDO). It replaces fragmented study resources by consolidating a 4-tier recursive syllabus hierarchy, an interactive bilingual Computer-Based Test (CBT) mock exam engine, cloud-streamed Previous Year Question (PYQ) vaults, and a daily current affairs digest into a high-performance, unified platform.</p><p>Built with Next.js 16 App Router and Express 5, the platform incorporates strict Role-Based Access Control (RBAC), direct PDF cloud streaming via Cloudinary, an integrated 5-tab SuperAdmin Question Studio with bulk JSON/CSV validation, and an in-house real-time telemetry and observability hub.</p>',
+    techStack: ['Next.js 16', 'React 19', 'Express 5', 'Node.js', 'MySQL', 'Sequelize ORM', 'Tailwind CSS 4', 'Cloudinary', 'JWT', 'Nodemailer'],
+    category: 'Full Stack',
+    status: 'Completed',
+    isFeatured: true,
+    displayOrder: 3,
+    liveUrl: 'https://raj-exam-vault-frontend.vercel.app/',
+    githubUrl: null,
+    thumbnail: '/projects/rajexam/rajexam-hero.png',
+    screenshots: [
+      {
+        title: 'Landing Page & RPSC RAS Target Exam Vault',
+        url: '/projects/rajexam/rajexam-hero.png',
+        caption: 'Bilingual Rajasthan exam preparation landing page with interactive RAS exam hierarchy, PYQ papers, and handwritten notes.'
+      },
+      {
+        title: 'SuperAdmin Control Center & Rajasthan Exams Management',
+        url: '/projects/rajexam/rajexam-admin.png',
+        caption: 'Comprehensive administrative dashboard managing state exams (CET 12th, RSMSSB Patwari, RPSC RAS), syllabus subjects, and staff invites.'
+      },
+      {
+        title: 'Real-Time System Telemetry & MySQL Observability Hub',
+        url: '/projects/rajexam/rajexam-telemetry.png',
+        caption: 'In-house observability suite monitoring MySQL 8.0 engine metrics, buffer pool hits (100%), connection pools, and API logs with zero-DB fallback.'
+      },
+      {
+        title: 'Aspirant Study Vault & Secure 3D Authentication',
+        url: '/projects/rajexam/rajexam-auth.png',
+        caption: 'Split authentication portal featuring 3D glowing study vault illustration and multi-provider social & OTP logins.'
+      },
+      {
+        title: 'Student Support Desk & Bug Reporting System',
+        url: '/projects/rajexam/rajexam-support.png',
+        caption: 'Zero-login student issue resolution desk allowing aspirants to submit OTP, registration, or platform bug tickets directly.'
+      }
+    ],
+    keyFeatures: [
+      'Interactive Bilingual CBT Mock Test Engine with real-time countdown timers, Hindi/English toggles, negative marking & question status palette',
+      '4-Tier Recursive Syllabus & Exam Hierarchy (Exam -> Stage -> Subject -> Topic) with sub-50ms queries',
+      'Integrated 5-Tab SuperAdmin Question Studio supporting direct authoring & bulk JSON/CSV uploads with live schema validation',
+      'Aspirant Personal Vault & Study Library with one-click cross-portal bookmarking for PYQs and notes',
+      'Cloud Document Delivery with direct Multer & Cloudinary CDN streaming and embedded in-browser PDF viewers',
+      'Bilingual Rajasthan Current Affairs Hub featuring categorized state GK, policy updates, and dynamic slug routing',
+      'Enterprise System Telemetry & Observability Hub tracking dwell times, heartbeat beacons, and Winston daily rotating logs',
+      'Secure Split-Screen Authentication with 6-digit Gmail SMTP OTP verification and JWT RBAC across 11 modules'
+    ],
+    challengesFaced: 'Modeled a deeply nested 4-tier exam hierarchy with optimized recursive queries in Sequelize under 50ms. Built a client-side JSON/CSV parser with pre-flight schema validation and transactional bulkCreate pipeline. Whitelisted custom telemetry headers (x-session-id, x-page-path) with zero-DB fallback to Winston daily rotating logs. Built a bilingual CBT interface persisting timers and responses across reloads.',
+    metrics: { users: '3.2k+', performanceScore: '99/100', apiCalls: '240k+/mo' },
+    isDeleted: false
+  },
+  {
     _id: 'proj-task-manager',
     title: 'Task Manager',
     slug: 'task-manager-trello-inspired-platform',
@@ -109,7 +235,7 @@ const initialProjects = [
     category: 'Full Stack',
     status: 'Completed',
     isFeatured: true,
-    displayOrder: 3,
+    displayOrder: 4,
     liveUrl: 'https://task-manger-frontend-3zoz.onrender.com/',
     githubUrl: 'https://github.com/vijaydinodia',
     thumbnail: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80',
@@ -229,7 +355,7 @@ const initialMessages = [
 const initialStats = {
   leetcodeSolved: 400,
   githubRepos: 50,
-  projectsBuilt: 18,
+  projectsBuilt: 19,
   github: { username: 'vijaydinodia', profileUrl: 'https://github.com/vijaydinodia' },
   leetcode: { username: 'vijaydinodia', profileUrl: 'https://leetcode.com/u/vijaydinodia/' }
 };
@@ -311,13 +437,24 @@ const initLocalStorage = () => {
     storedProjects[0]?._id !== 'proj-interviewflow' ||
     storedProjects[1]?._id !== 'proj-sevasetu' ||
     storedProjects[2]?._id !== 'proj-medicore' ||
-    storedProjects[3]?._id !== 'proj-task-manager' ||
+    storedProjects[3]?._id !== 'proj-rajexamvault' ||
+    storedProjects[4]?._id !== 'proj-task-manager' ||
+    !storedProjects.find(p => p._id === 'proj-interviewflow')?.screenshots ||
+    storedProjects.find(p => p._id === 'proj-interviewflow')?.thumbnail?.includes('unsplash') ||
+    !storedProjects.find(p => p._id === 'proj-sevasetu')?.screenshots ||
+    storedProjects.find(p => p._id === 'proj-sevasetu')?.thumbnail?.includes('unsplash') ||
+    !storedProjects.find(p => p._id === 'proj-medicore')?.screenshots ||
+    storedProjects.find(p => p._id === 'proj-medicore')?.thumbnail?.includes('unsplash') ||
+    !storedProjects.find(p => p._id === 'proj-rajexamvault')?.screenshots ||
+    storedProjects.find(p => p._id === 'proj-rajexamvault')?.thumbnail?.includes('unsplash') ||
+    storedProjects.find(p => p._id === 'proj-rajexamvault')?.liveUrl !== 'https://raj-exam-vault-frontend.vercel.app/' ||
+    storedProjects.find(p => p._id === 'proj-rajexamvault')?.githubUrl !== null ||
     storedProjects.some(p => 
       p.liveUrl === 'https://medicore-health.vercel.app' || 
       p.liveUrl === 'https://backend-sevasetu.onrender.com' || 
       p.liveUrl === 'https://interviewflow-platform.vercel.app' || 
       p.liveUrl === 'https://backend-1tqe.onrender.com' ||
-      (p.githubUrl && p.githubUrl !== 'https://github.com/vijaydinodia')
+      (p.githubUrl && !p.githubUrl.startsWith('https://github.com/vijaydinodia'))
     )
   ) {
     setItem('_mock_projects', initialProjects);
@@ -349,7 +486,7 @@ const initLocalStorage = () => {
   if (!localStorage.getItem('_mock_messages')) setItem('_mock_messages', initialMessages);
 
   const storedStats = getItem('_mock_stats', null);
-  if (!storedStats || storedStats.leetcodeSolved < 400 || storedStats.githubRepos < 50) {
+  if (!storedStats || storedStats.leetcodeSolved < 400 || storedStats.githubRepos < 50 || storedStats.projectsBuilt < 19) {
     setItem('_mock_stats', initialStats);
   }
 

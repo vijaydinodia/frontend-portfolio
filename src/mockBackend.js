@@ -237,8 +237,25 @@ const initialProjects = [
     isFeatured: true,
     displayOrder: 4,
     liveUrl: 'https://task-manger-frontend-3zoz.onrender.com/',
-    githubUrl: 'https://github.com/vijaydinodia',
-    thumbnail: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80',
+    githubUrl: 'https://github.com/vijaydinodia/Task-Manger',
+    thumbnail: '/projects/taskmanager/taskmanager-hero.png',
+    screenshots: [
+      {
+        title: 'Work Control Center & Artemis Kanban Board',
+        url: '/projects/taskmanager/taskmanager-hero.png',
+        caption: 'High-performance team workspace featuring active Artemis Launch Kanban board, milestone progress tracking, sprint on-time metrics (98%), and real-time team synchronization.'
+      },
+      {
+        title: 'Proven 3-Step Execution Workflow & 3D Collaboration Stage',
+        url: '/projects/taskmanager/taskmanager-workflow.png',
+        caption: 'Structured workflow pipeline breaking down chaotic requests into Organize & Assign, Real-Time Collaboration, and Monitor & Deliver with holographic team node visualization.'
+      },
+      {
+        title: 'Split-Screen Authentication & Workspace Access Portal',
+        url: '/projects/taskmanager/taskmanager-auth.png',
+        caption: 'Focused authentication gateway featuring daily sprint velocity trackers, milestone status summaries, and secure JWT sign-in to active workspaces.'
+      }
+    ],
     keyFeatures: [
       'Interactive Drag-and-Drop Kanban Tag Board utilizing @dnd-kit',
       'Bulk Task Import & Excel Template Export with XLSX buffer parsing',
@@ -449,6 +466,8 @@ const initLocalStorage = () => {
     storedProjects.find(p => p._id === 'proj-rajexamvault')?.thumbnail?.includes('unsplash') ||
     storedProjects.find(p => p._id === 'proj-rajexamvault')?.liveUrl !== 'https://raj-exam-vault-frontend.vercel.app/' ||
     storedProjects.find(p => p._id === 'proj-rajexamvault')?.githubUrl !== null ||
+    !storedProjects.find(p => p._id === 'proj-task-manager')?.screenshots ||
+    storedProjects.find(p => p._id === 'proj-task-manager')?.thumbnail?.includes('unsplash') ||
     storedProjects.some(p => 
       p.liveUrl === 'https://medicore-health.vercel.app' || 
       p.liveUrl === 'https://backend-sevasetu.onrender.com' || 

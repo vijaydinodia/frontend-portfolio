@@ -18,23 +18,32 @@ const Stats = () => {
   const [stats, setStats] = useState({
     leetcodeSolved: 400,
     githubRepos: 50,
-    projectsBuilt: 19,
+    projectsBuilt: 7,
     github: { username: 'vijaydinodia', profileUrl: 'https://github.com/vijaydinodia' },
     leetcode: { username: 'vijaydinodia', profileUrl: 'https://leetcode.com/u/vijaydinodia/' },
   });
 
   useEffect(() => {
-    axios.get('/api/stats')
-      .then((res) => {
-        if (res.data?.data) {
-          setStats((prev) => ({
-            ...prev,
-            ...res.data.data,
-          }));
-        }
-      })
-      .catch((err) => console.error('Error fetching stats:', err))
-      .finally(() => setLoading(false));
+    Promise.allSettled([
+      axios.get('/api/stats'),
+      axios.get('/api/projects')
+    ]).then(([statsRes, projectsRes]) => {
+      const realCount = projectsRes.status === 'fulfilled' && Array.isArray(projectsRes.value.data?.data)
+        ? projectsRes.value.data.data.length
+        : null;
+
+      if (statsRes.status === 'fulfilled' && statsRes.value.data?.data) {
+        setStats((prev) => ({
+          ...prev,
+          ...statsRes.value.data.data,
+          projectsBuilt: realCount ?? statsRes.value.data.data.projectsBuilt ?? 7,
+        }));
+      } else if (realCount !== null) {
+        setStats((prev) => ({ ...prev, projectsBuilt: realCount }));
+      }
+    })
+    .catch((err) => console.error('Error fetching stats:', err))
+    .finally(() => setLoading(false));
   }, []);
 
   const cards = useMemo(() => [
@@ -69,8 +78,8 @@ const Stats = () => {
     {
       key: 'projects',
       label: 'Featured Projects',
-      value: toNumber(stats.projectsBuilt) || 19,
-      badgeText: 'Full Stack & MERN MVPs',
+      value: toNumber(stats.projectsBuilt) || 7,
+      badgeText: `${toNumber(stats.projectsBuilt) || 7} Live Showcases`,
       source: 'Production Ready',
       href: '#projects',
       icon: FolderGit2,

@@ -106,11 +106,18 @@ const Projects = () => {
             transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
             className="text-center mb-14"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-3">
-              Featured <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Projects</span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-3 flex items-center justify-center gap-3 flex-wrap">
+              <span>
+                Featured <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Projects</span>
+              </span>
+              {projects.length > 0 && (
+                <span className="text-xs md:text-sm font-bold px-3 py-0.5 rounded-full bg-primary/10 border border-primary/30 text-primary tracking-widest uppercase">
+                  {projects.length} Total
+                </span>
+              )}
             </h2>
             <p className="text-textMuted max-w-2xl mx-auto text-base sm:text-lg font-light">
-              Production-ready web applications, microservices, and interactive developer platforms.
+              Explore {projects.length > 0 ? `${projects.length} ` : ''}production-ready web applications, microservices, and interactive developer platforms.
             </p>
           </motion.div>
           

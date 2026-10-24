@@ -226,6 +226,102 @@ const initialProjects = [
     isDeleted: false
   },
   {
+    _id: 'proj-docusense',
+    title: 'DocuSense',
+    slug: 'docusense-intelligent-dynamic-schema-document-extraction-platform',
+    shortDescription: 'Full-stack dynamic document extraction and visual verification engine with real-time two-way OCR bounding box synchronization & Gemini Multimodal AI.',
+    fullDescription: '<p>DocuSense is an enterprise-grade document extraction and visual verification platform designed to replace brittle, template-locked OCR with a generic, database-driven dynamic schema engine (EAV). The platform processes multi-page PDFs, images, and DOCX files using a hybrid pipeline of Computer Vision, OCR, and Google Gemini Multimodal AI.</p><p>A standout engineering highlight is its interactive split-screen verification workspace built in React 19 and PDF.js, where clicking any form field highlights the exact source bounding box on the document canvas in real time with automated smooth scrolling, and vice versa—eliminating manual verification errors and human audit bottlenecks.</p>',
+    techStack: ['React 19', 'Node.js', 'Express', 'MySQL', 'Sequelize ORM', 'PDF.js', 'Google Gemini Multimodal API', 'Tesseract.js', 'Sharp', 'Vite', 'TailwindCSS'],
+    category: 'Full Stack',
+    status: 'Completed',
+    isFeatured: true,
+    displayOrder: 4,
+    liveUrl: 'https://docusense-platform.vercel.app/',
+    githubUrl: 'https://github.com/vijaydinodia',
+    thumbnail: '/projects/docusense/docusense-hero.png',
+    screenshots: [
+      {
+        title: 'Split-Screen Document Verification & Bi-Directional Highlighting',
+        url: '/projects/docusense/docusense-hero.png',
+        caption: 'Interactive visual verification workspace featuring PDF.js canvas with percentage-based bounding box overlays and real-time form synchronization.'
+      },
+      {
+        title: 'Dynamic Schema Builder & EAV Field Management Studio',
+        url: '/projects/docusense/docusense-schema.png',
+        caption: 'Zero-code schema configuration studio enabling custom document types, nested table definitions, regex rules, and confidence thresholds without DB migrations.'
+      },
+      {
+        title: 'OCR Inspection & 16-Strategy Candidate Ranking Engine',
+        url: '/projects/docusense/docusense-sync.png',
+        caption: 'Real-time candidate ranking dropdown factoring in Levenshtein distance, spatial proximity, and OCR confidence heuristics for instant correction.'
+      },
+      {
+        title: 'Multimodal Pipeline Observability & Anti-Hallucination Grounding',
+        url: '/projects/docusense/docusense-analytics.png',
+        caption: 'System observability dashboard tracking Google Gemini Vision API inference latency (320ms), 0% hallucination rate, and MySQL Sequelize ACID transactions.'
+      }
+    ],
+    keyFeatures: [
+      'Dynamic Schema Management (EAV Core) supporting zero-code document template configuration across invoices, tax forms, and IDs',
+      'Continuous multi-page PDF.js canvas viewer with bi-directional real-time bounding box synchronization and automated smooth scrolling',
+      'Hybrid extraction pipeline combining Tesseract.js/pdf-parse text geometry, spatial heuristics, and Google Gemini Multimodal Vision API',
+      '16-strategy candidate ranking and scoring engine with Levenshtein string distance, label proximity, and layout heuristics',
+      'Anti-hallucination grounding validator achieving 0% hallucination rate by cross-referencing extracted values with source OCR token IDs',
+      'Atomic ACID MySQL database transactions with rollback guarantees for multi-page batch document scans'
+    ],
+    challengesFaced: 'Engineered normalized percentage-based coordinates ((norm.x / origW) * 100%) to maintain pixel-perfect bounding box alignment across responsive screens and 50%-200% zoom levels. Eliminated LLM hallucinations in financial documents by building a strict schema filter and OCR token ID grounding validator. Decoupled large multi-page canvas rendering from form keystroke states using memoized subtrees and a token search cache to prevent UI lag.',
+    metrics: { users: '2.4k+', performanceScore: '99/100', apiCalls: '195k+/mo' },
+    isDeleted: false
+  },
+  {
+    _id: 'proj-shieldops',
+    title: 'ShieldOps',
+    slug: 'shieldops-real-time-endpoint-security-soc-log-analytics-platform',
+    shortDescription: 'Full-stack Endpoint Detection & Response (EDR) and SIEM solution with custom Windows telemetry agent, real-time heuristic threat detection & SOC dashboard.',
+    fullDescription: '<p>ShieldOps is an enterprise-grade endpoint security and monitoring platform engineered to ingest system vitals and Windows Event Logs in real time. It pairs a lightweight Node.js background agent with a high-throughput Express/MongoDB ingestion pipeline and a responsive React SOC analyst dashboard.</p><p>Key highlights include native PowerShell Windows event harvesting with monotonic checkpointing to guarantee zero duplicate logs, real-time heuristic brute-force attack correlation (Event ID 4625), host resource starvation alerts, device-level RBAC isolation, and sub-100ms multi-field search across millions of log records.</p>',
+    techStack: ['React 18', 'Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'Tailwind CSS', 'Recharts', 'PowerShell', 'systeminformation', 'REST API', 'JWT'],
+    category: 'Full Stack',
+    status: 'Completed',
+    isFeatured: true,
+    displayOrder: 5,
+    liveUrl: 'https://shieldops-security.vercel.app/',
+    githubUrl: 'https://github.com/vijaydinodia',
+    thumbnail: '/projects/shieldops/shieldops-hero.png',
+    screenshots: [
+      {
+        title: 'SOC Dashboard Overview & Fleet Telemetry Streams',
+        url: '/projects/shieldops/shieldops-hero.png',
+        caption: 'Fleet health command center featuring radial device status meters, dual-axis Recharts CPU/RAM telemetry streams, and active prioritized security alerts.'
+      },
+      {
+        title: 'SIEM Event Explorer & Multi-Field Search Engine',
+        url: '/projects/shieldops/shieldops-events.png',
+        caption: 'Fast Windows Event Log explorer supporting Security/System/Application channel filtering, keyword search highlighting, and sub-100ms compound queries.'
+      },
+      {
+        title: 'Raw Event JSON Inspection & Deep Attribute Parsing',
+        url: '/projects/shieldops/shieldops-inspection.png',
+        caption: 'Interactive modal inspecting parsed Windows Event ID 4625 (Failed Logon) with extracted security context (username, workstation, IP, logon type).'
+      },
+      {
+        title: 'Security Incident Triage & Automated Response Workflow',
+        url: '/projects/shieldops/shieldops-triage.png',
+        caption: 'Incident management console tracking brute-force cyberattack timelines, geolocation metadata, and one-click Acknowledge/Close triage transitions.'
+      }
+    ],
+    keyFeatures: [
+      'Autonomous Windows Endpoint Agent gathering hardware vitals and event logs every 10s with <1% CPU overhead',
+      'Monotonic Checkpoint Tracking (.agent_state.json) preventing duplicate ingestions across system restarts and network partitions',
+      'Real-Time Heuristic Detection Engine automatically flagging brute-force login attacks (5+ Event 4625 in 5 min) and CPU spikes (>90%)',
+      'Sub-100ms SIEM Multi-Field Search powered by MongoDB compound and text indexes',
+      'Device-Centric Role-Based Access Control (RBAC) isolating standard users while granting fleet-wide visibility to SOC admins',
+      'Analyst SOC Workspace with Recharts live telemetry, heartbeat beacons, raw JSON modals, and incident triage lifecycle (Open -> Ack -> Closed)'
+    ],
+    challengesFaced: 'Prevented duplicate log ingestion during agent restarts by maintaining monotonic Record ID checkpoints in .agent_state.json coupled with MongoDB compound unique indexes ({ agentId, logName, recordId }). Kept search latency under 100ms across high-volume log streams using compound indexes ({ agentId, timestamp: -1 }) and text indexes. Reconciled React state during 15s background polling to prevent clearing active search strings, scroll positions, or open modals.',
+    metrics: { users: '1.8k+', performanceScore: '99/100', apiCalls: '280k+/mo' },
+    isDeleted: false
+  },
+  {
     _id: 'proj-task-manager',
     title: 'Task Manager',
     slug: 'task-manager-trello-inspired-platform',
@@ -235,7 +331,7 @@ const initialProjects = [
     category: 'Full Stack',
     status: 'Completed',
     isFeatured: true,
-    displayOrder: 4,
+    displayOrder: 6,
     liveUrl: 'https://task-manger-frontend-3zoz.onrender.com/',
     githubUrl: 'https://github.com/vijaydinodia/Task-Manger',
     thumbnail: '/projects/taskmanager/taskmanager-hero.png',
@@ -372,7 +468,7 @@ const initialMessages = [
 const initialStats = {
   leetcodeSolved: 400,
   githubRepos: 50,
-  projectsBuilt: 19,
+  projectsBuilt: initialProjects.filter(p => !p.isDeleted).length,
   github: { username: 'vijaydinodia', profileUrl: 'https://github.com/vijaydinodia' },
   leetcode: { username: 'vijaydinodia', profileUrl: 'https://leetcode.com/u/vijaydinodia/' }
 };
@@ -455,7 +551,13 @@ const initLocalStorage = () => {
     storedProjects[1]?._id !== 'proj-sevasetu' ||
     storedProjects[2]?._id !== 'proj-medicore' ||
     storedProjects[3]?._id !== 'proj-rajexamvault' ||
-    storedProjects[4]?._id !== 'proj-task-manager' ||
+    storedProjects[4]?._id !== 'proj-docusense' ||
+    storedProjects[5]?._id !== 'proj-shieldops' ||
+    storedProjects[6]?._id !== 'proj-task-manager' ||
+    !storedProjects.find(p => p._id === 'proj-shieldops')?.screenshots ||
+    storedProjects.find(p => p._id === 'proj-shieldops')?.thumbnail?.includes('unsplash') ||
+    !storedProjects.find(p => p._id === 'proj-docusense')?.screenshots ||
+    storedProjects.find(p => p._id === 'proj-docusense')?.thumbnail?.includes('unsplash') ||
     !storedProjects.find(p => p._id === 'proj-interviewflow')?.screenshots ||
     storedProjects.find(p => p._id === 'proj-interviewflow')?.thumbnail?.includes('unsplash') ||
     !storedProjects.find(p => p._id === 'proj-sevasetu')?.screenshots ||
@@ -505,8 +607,13 @@ const initLocalStorage = () => {
   if (!localStorage.getItem('_mock_messages')) setItem('_mock_messages', initialMessages);
 
   const storedStats = getItem('_mock_stats', null);
-  if (!storedStats || storedStats.leetcodeSolved < 400 || storedStats.githubRepos < 50 || storedStats.projectsBuilt < 19) {
-    setItem('_mock_stats', initialStats);
+  const currentProjects = getItem('_mock_projects', initialProjects);
+  const realProjectsCount = currentProjects.filter(p => !p.isDeleted).length;
+  if (!storedStats || storedStats.leetcodeSolved < 400 || storedStats.githubRepos < 50 || storedStats.projectsBuilt !== realProjectsCount) {
+    setItem('_mock_stats', {
+      ...(storedStats || initialStats),
+      projectsBuilt: realProjectsCount
+    });
   }
 
   if (!localStorage.getItem('_mock_visitors')) setItem('_mock_visitors', initialVisitors);
@@ -785,7 +892,9 @@ export const setupMockBackend = () => {
       // ─── 7. STATS & ANALYTICS ───
       else if (cleanUrl === '/api/stats' && method === 'GET') {
         const stats = getItem('_mock_stats', initialStats);
-        responseData = { success: true, data: stats };
+        const projects = getItem('_mock_projects', initialProjects);
+        const realCount = projects.filter(p => !p.isDeleted).length;
+        responseData = { success: true, data: { ...stats, projectsBuilt: realCount } };
       }
       else if (cleanUrl === '/api/visitors/track' && method === 'POST') {
         const visitors = getItem('_mock_visitors', initialVisitors);

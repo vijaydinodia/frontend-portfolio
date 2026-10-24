@@ -236,7 +236,7 @@ const initialProjects = [
     status: 'Completed',
     isFeatured: true,
     displayOrder: 4,
-    liveUrl: 'https://docusense-platform.vercel.app/',
+    liveUrl: null,
     githubUrl: 'https://github.com/vijaydinodia',
     thumbnail: '/projects/docusense/docusense-hero.png',
     screenshots: [
@@ -284,7 +284,7 @@ const initialProjects = [
     status: 'Completed',
     isFeatured: true,
     displayOrder: 5,
-    liveUrl: 'https://shieldops-security.vercel.app/',
+    liveUrl: null,
     githubUrl: 'https://github.com/vijaydinodia',
     thumbnail: '/projects/shieldops/shieldops-hero.png',
     screenshots: [
@@ -568,6 +568,8 @@ const initLocalStorage = () => {
     storedProjects.find(p => p._id === 'proj-rajexamvault')?.thumbnail?.includes('unsplash') ||
     storedProjects.find(p => p._id === 'proj-rajexamvault')?.liveUrl !== 'https://raj-exam-vault-frontend.vercel.app/' ||
     storedProjects.find(p => p._id === 'proj-rajexamvault')?.githubUrl !== null ||
+    storedProjects.find(p => p._id === 'proj-docusense')?.liveUrl !== null ||
+    storedProjects.find(p => p._id === 'proj-shieldops')?.liveUrl !== null ||
     !storedProjects.find(p => p._id === 'proj-task-manager')?.screenshots ||
     storedProjects.find(p => p._id === 'proj-task-manager')?.thumbnail?.includes('unsplash') ||
     storedProjects.some(p => 
